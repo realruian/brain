@@ -12,4 +12,4 @@ for f in case{1..7}.json; do python3 scripts/from_json.py $f 2>/dev/null & done
 
 图像中不要出现提示词中没有的多余的物品，有几个出几个,不要重复摆放
 图像中的物品不要太贴边 
-要俯拍有角度，排列美观，不要平铺
+菜品要俯拍有角度，排列美观，不要平铺
