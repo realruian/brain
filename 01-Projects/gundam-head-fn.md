@@ -25,14 +25,14 @@ date: 2026-04-15
 
 ## 技术栈
 
-| 类别 | 技术 |
-|------|------|
-| 语言 | Python 3.9+ |
-| 图像处理 | Pillow（4× 超采样抗锯齿） |
-| AI 换菜品 | Gemini 3.1 Flash Image Preview（图片编辑） |
-| AI 菜品识别 | Gemini 2.5 Flash（文本提取） |
-| 环境变量 | python-dotenv |
-| 交付形式 | OpenClaw Skill（SKILL.md） |
+| 类别      | 技术                                   |
+| ------- | ------------------------------------ |
+| 语言      | Python 3.9+                          |
+| 图像处理    | Pillow（4× 超采样抗锯齿）                    |
+| AI 换菜品  | Gemini 3.1 Flash Image Preview（图片编辑） |
+| AI 菜品识别 | Gemini 2.5 Flash（文本提取）               |
+| 环境变量    | python-dotenv                        |
+| 交付形式    | OpenClaw Skill（SKILL.md）             |
 
 纯 Python CLI，无构建工具、无框架。
 

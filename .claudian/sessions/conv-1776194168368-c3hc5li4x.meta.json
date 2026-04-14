@@ -4,18 +4,20 @@
   "title": "Check tutorial for errors and gaps",
   "titleGenerationStatus": "success",
   "createdAt": 1776194168370,
-  "updatedAt": 1776194180368,
-  "lastResponseAt": 1776194178264,
-  "sessionId": null,
-  "providerState": {},
-  "currentNote": "03-Resources/Claude Code 终端使用教程.md",
+  "updatedAt": 1776194674360,
+  "lastResponseAt": 1776194463272,
+  "sessionId": "fe5dea73-7258-45e0-a66c-13b7e8fff8c2",
+  "providerState": {
+    "providerSessionId": "fe5dea73-7258-45e0-a66c-13b7e8fff8c2"
+  },
   "usage": {
     "model": "opus",
-    "inputTokens": 3,
-    "cacheCreationInputTokens": 16287,
-    "cacheReadInputTokens": 0,
+    "inputTokens": 1,
+    "cacheCreationInputTokens": 3411,
+    "cacheReadInputTokens": 31683,
     "contextWindow": 200000,
-    "contextTokens": 16290,
-    "percentage": 8
+    "contextTokens": 35095,
+    "percentage": 18,
+    "contextWindowIsAuthoritative": true
   }
 }
