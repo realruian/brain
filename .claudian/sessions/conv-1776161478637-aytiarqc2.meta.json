@@ -4,8 +4,8 @@
   "title": "Start chat",
   "titleGenerationStatus": "success",
   "createdAt": 1776161478638,
-  "updatedAt": 1776162550464,
-  "lastResponseAt": 1776162550464,
+  "updatedAt": 1776166711076,
+  "lastResponseAt": 1776166711076,
   "sessionId": "e9725bfe-c4f9-4df8-82dd-86a4a6b3736b",
   "providerState": {
     "providerSessionId": "e9725bfe-c4f9-4df8-82dd-86a4a6b3736b"
@@ -13,11 +13,11 @@
   "usage": {
     "model": "sonnet",
     "inputTokens": 1,
-    "cacheCreationInputTokens": 4329,
-    "cacheReadInputTokens": 57168,
+    "cacheCreationInputTokens": 2291,
+    "cacheReadInputTokens": 62441,
     "contextWindow": 200000,
-    "contextTokens": 61498,
-    "percentage": 31,
+    "contextTokens": 64733,
+    "percentage": 32,
     "contextWindowIsAuthoritative": true
   }
 }
