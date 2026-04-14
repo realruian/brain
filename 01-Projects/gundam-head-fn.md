@@ -123,8 +123,27 @@ python3 scripts/from_json.py input.json --no-title
 
 ### 2026-04-15
 
-- AI 换菜品效果优化（EDIT_PROMPT 透视/构图、EXTRACT_PROMPT 防拆分/数量软上限）
-- 新增 --no-title、--title 覆盖参数
-- 标题字数校验（警告模式）
-- 文档全面同步（SKILL.md / CLAUDE.md）
-- 交付业务方（含 .env API Key）
+**做了什么：**
+
+- EDIT_PROMPT 优化：强化透视一致性（共享消失点、25-45° 斜视角禁俯拍）、禁止多余装饰、强调菜品精致大份、主次构图
+- EXTRACT_PROMPT 修复：防止复合菜品拆分（"草莓蛋糕"不再拆成"草莓"+"蛋糕"）、增加 2-3 个主菜品软上限
+- _build_instruction 重写：精确计数、三角构图（3 道菜）、少量菜品放大提示、按场景区分摆盘位置
+- compose.py 新增 --no-title 参数、render_title 字数校验（只警告不截断）
+- from_json.py 新增 --title 覆盖参数，AI 助手可传入缩写后的标题
+- SKILL.md 执行步骤重写：业务 JSON 优先判断 + 标题字数检查缩写流程
+- SKILL.md / CLAUDE.md 全面同步：补 from_json.py、移除弃用的 foreground.png、修正字段路径
+- 提交 assets/（字体 + 场景素材），打包交付业务方（含 .env）
+
+**遇到的问题：**
+
+- 下午茶场景 Gemini 生成菜品数量不稳定（2-6 个），根因是 EXTRACT_PROMPT 拆分复合菜品名 + 无数量约束
+- 少量菜品时画面空旷，因为 placement 规则让菜品挤在右下角且禁止填满
+- SKILL.md 执行步骤没有 from_json.py 入口，导致 OpenClaw 只改文字不换菜品
+- style.json 的 max_chars_per_line / max_lines 从未被代码执行，标题字数无实际限制
+- 代码截断标题会导致语言不通顺，改为警告 + AI 助手智能缩写方案
+
+**明天要继续：**
+
+- 验证业务方实际使用 OpenClaw + JSON 的完整流程（标题缩写、菜品替换、字数校验是否都生效）
+- 观察 EXTRACT_PROMPT 软上限在更多 case 上的稳定性，必要时调整规则
+- 考虑是否需要给 from_json.py 增加 --subtitle 覆盖参数（目前 afternoon 副标题是硬编码的）
