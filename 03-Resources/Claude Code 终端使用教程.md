@@ -1,3 +1,10 @@
+---
+tags:
+  - Claude-Code
+  - 参考
+date: 2026-04-15
+---
+
 ## 基本操作
 
 **启动：** 先 `cd` 到你的项目目录，然后输入 `claude`
@@ -26,7 +33,7 @@ Claude Code 会自动读取你整个项目的结构。
 |`Esc Esc`（连按两次）|撤销 Claude 最近的改动|
 |`↑`|翻出上一条你发的消息|
 |`Tab`|自动补全|
-|`Shift+Tab`|切换权限模式（bypass/allowlist/off）|
+|`Shift+Tab`|切换权限模式（Default / Auto-accept edits / Plan mode）|
 |`/`|查看所有斜杠命令|
 |`!` + 命令|运行终端命令并把结果给 Claude 看|
 
