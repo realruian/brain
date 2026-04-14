@@ -4,21 +4,20 @@
   "title": "Start chat",
   "titleGenerationStatus": "success",
   "createdAt": 1776161478638,
-  "updatedAt": 1776162255220,
-  "lastResponseAt": 1776162255220,
+  "updatedAt": 1776162550464,
+  "lastResponseAt": 1776162550464,
   "sessionId": "e9725bfe-c4f9-4df8-82dd-86a4a6b3736b",
   "providerState": {
     "providerSessionId": "e9725bfe-c4f9-4df8-82dd-86a4a6b3736b"
   },
-  "currentNote": "01-Projects/design-studio.md",
   "usage": {
     "model": "sonnet",
     "inputTokens": 1,
-    "cacheCreationInputTokens": 2242,
-    "cacheReadInputTokens": 32849,
+    "cacheCreationInputTokens": 4329,
+    "cacheReadInputTokens": 57168,
     "contextWindow": 200000,
-    "contextTokens": 35092,
-    "percentage": 18,
+    "contextTokens": 61498,
+    "percentage": 31,
     "contextWindowIsAuthoritative": true
   }
 }
