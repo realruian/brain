@@ -17,3 +17,5 @@ for f in case{1..7}.json; do python3 scripts/from_json.py $f 2>/dev/null & done
 不要出现重复的食材，大小和菜品规格要不一样，有区别要有主次要有突出的产品但要保持原有菜品的实际物 理大小
 
 菜品大小可以有主次，但菜式要丰富
+
+读一下 scripts/from_json.py 和 scripts/compose.py 里的 EDIT_PROMPT 和 _build_instruction
