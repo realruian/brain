@@ -1,3 +1,9 @@
 {
-  "promptDelete": false
+  "promptDelete": false,
+  "userIgnoreFilters": [
+    "node_modules",
+    "dist",
+    ".git",
+    ".vercel"
+  ]
 }

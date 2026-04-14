@@ -1,0 +1,24 @@
+{
+  "id": "conv-1776161478637-aytiarqc2",
+  "providerId": "claude",
+  "title": "Start chat",
+  "titleGenerationStatus": "success",
+  "createdAt": 1776161478638,
+  "updatedAt": 1776162255220,
+  "lastResponseAt": 1776162255220,
+  "sessionId": "e9725bfe-c4f9-4df8-82dd-86a4a6b3736b",
+  "providerState": {
+    "providerSessionId": "e9725bfe-c4f9-4df8-82dd-86a4a6b3736b"
+  },
+  "currentNote": "01-Projects/design-studio.md",
+  "usage": {
+    "model": "sonnet",
+    "inputTokens": 1,
+    "cacheCreationInputTokens": 2242,
+    "cacheReadInputTokens": 32849,
+    "contextWindow": 200000,
+    "contextTokens": 35092,
+    "percentage": 18,
+    "contextWindowIsAuthoritative": true
+  }
+}
