@@ -4,21 +4,20 @@
   "title": "Enhance Harness docs with Claude Code examples\n...",
   "titleGenerationStatus": "success",
   "createdAt": 1776245616700,
-  "updatedAt": 1776248090443,
-  "lastResponseAt": 1776248090443,
+  "updatedAt": 1776248729932,
+  "lastResponseAt": 1776248729932,
   "sessionId": "702b03de-a81a-4e79-ab57-cd2f8c61edbc",
   "providerState": {
     "providerSessionId": "702b03de-a81a-4e79-ab57-cd2f8c61edbc"
   },
-  "currentNote": "02-Areas/Claude-Code/Harness-Engineering.md",
   "usage": {
     "model": "opus",
     "inputTokens": 1,
-    "cacheCreationInputTokens": 482,
-    "cacheReadInputTokens": 31473,
+    "cacheCreationInputTokens": 1141,
+    "cacheReadInputTokens": 48504,
     "contextWindow": 200000,
-    "contextTokens": 31956,
-    "percentage": 16,
+    "contextTokens": 49646,
+    "percentage": 25,
     "contextWindowIsAuthoritative": true
   }
 }

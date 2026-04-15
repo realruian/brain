@@ -15,94 +15,123 @@ Harness Engineering 是设计约束系统、反馈循环和运行环境，让 AI
 
 核心公式：**Agent = Model + Harness**
 
-模型是引擎，Harness 是底盘、刹车、方向盘和仪表盘。没有 Harness，再强大的引擎也无法安全载客。
+模型是引擎，Harness 是底盘、刹车、方向盘和仪表盘。模型升级像换更大排量的引擎，Harness 改进像装刹车、加护栏、画车道线——前者决定速度上限，后者决定能不能安全上路。
 
 ## 为什么模型不是瓶颈
 
 LangChain 的 coding agent 不换模型，仅改进 harness，就从 Terminal Bench 的 52.8% 跳到 66.5%，从 Top 30 进入 Top 5。
 
-OpenAI 的 Codex 团队构建了超过 100 万行代码的生产应用，零行人类手写代码。工程师的工作就是设计 harness。
+同一个 Claude 模型，给它清晰的规则和项目上下文 vs 什么都不给，输出质量天差地别。提升 AI 编码质量，最快的方式不是等下一代模型，而是改进你给它的环境。
 
 ## 四个核心模块
 
-### 1. 约束（Constrain）
+### 1. 约束（Constrain）— 限制它不能做什么
 
-限制 agent 能做什么。
+给 agent 划定边界，告诉它哪些事情绝对不能做。在 Claude Code 里有三种手段，从轻到重：
 
-- CLAUDE.md 中的规则（编码规范、不能动的文件）
-- 权限模式（Default / Auto-accept / Plan / Auto）
-- Hooks（拦截危险操作）
-- 沙箱（隔离执行环境）
-
-### 2. 告知（Inform）
-
-告诉 agent 应该做什么。
-
-- CLAUDE.md（项目上下文、架构、命令）
-- Skills（按需加载的领域知识）
-- 代码中的结构化文档（README、注释、类型注解）
-- 仓库本身就是上下文——agent 看不到的东西等于不存在
-
-### 3. 验证（Verify）
-
-确认 agent 做对了没有。
-
-- 测试套件（单元测试、集成测试）
-- Linter 和类型检查
-- CI/CD 流水线
-- PostToolUse Hook 自动校验
-
-### 4. 纠正（Correct）
-
-在出错时修复。
-
-- 对话中直接纠正
-- 反馈循环（测试失败 → 自动重试）
-- 定期清理任务（扫描代码偏差、开 PR 修复）
-- 把犯过的错写进 CLAUDE.md 防止重犯
-
-## 关键原则
-
-### CLAUDE.md 是目录，不是百科全书
-
-OpenAI 的做法：AGENTS.md 控制在约 100 行，只作为指向更深层文档的地图。详细知识放在结构化的 docs/ 目录里。
-
-### 每次犯错都要工程化解决
-
-发现 agent 犯了一个错误，就花时间设计一个方案让它永远不会再犯。可以是 CLAUDE.md 里加一条规则、加一个 Hook、或加一个测试。
-
-### Harness 不是要消除人类输入
-
-一个好的 harness 不应该以完全消除人类输入为目标，而是把人类的输入引导到最重要的地方。
-
-### 先设计环境，再写代码
-
-不要从写代码开始，从设计环境开始：让 AI 在规划前先看真实代码；给 AI 结构化约束；在规划和执行之间放一个人工审查节点。
-
-### 仓库就是 agent 的全部世界
-
-agent 无法访问 Slack 讨论、Google Docs 或人脑中的知识。如果信息不在仓库里、不可被 agent 发现，它就等于不存在。重要的决策和规范必须写进仓库。
-
-## 演进路径
+**① CLAUDE.md 规则**——在 `CLAUDE.md` 里写明禁止事项。比如项目里有些文件改了会出事，就明确告诉它不要碰：
 
 ```
-Vibe Coding（2025）→ Spec Coding（2025+）→ Harness Engineering（2026）
-凭直觉写代码       用规格约束        用环境约束运行时行为
+IMPORTANT: 不要修改 prisma/migrations/ 下的任何文件，这些是已执行的数据库迁移。
+IMPORTANT: 不要修改 .env.production，这是线上环境配置。
 ```
 
-## 我目前的 Harness 状态
+关键词 `IMPORTANT` 或 `YOU MUST` 可以提高遵守率，但不是 100%——agent 有时候还是会忘。
 
-| 模块  | 已有                   | 可以加                         |
-| --- | -------------------- | --------------------------- |
-| 约束  | CLAUDE.md 规则、权限模式    | Hooks（自动 lint、拦截危险操作）       |
-| 告知  | CLAUDE.md 项目上下文、全局配置 | Skills（按需加载专业知识）            |
-| 验证  | 手动检查                 | 测试脚本、CI 集成、PostToolUse Hook |
-| 纠正  | 对话中纠正                | 自动反馈循环、定期清理任务               |
+**② 权限模式**——Claude Code 有一个设置，控制 agent 每一步操作要不要经过你确认。不放心的时候用默认模式（它每次改文件、跑命令都会先问你），信任它的时候切到 auto-accept（让它自己跑，不用你一步步批准）。
+
+**③ Hook 自动拦截**——Hook 是你提前写好的一段脚本，Claude Code 在特定时机会自动执行它。比如你可以设一个 Hook：agent 每次要删除文件之前，系统自动检查它要删的是不是重要文件，是的话直接阻止。跟 CLAUDE.md 的区别是：**CLAUDE.md 是"请求"agent 不要做，Hook 是"系统不让"它做**——前者约 80% 遵守率，后者 100%。
+
+---
+
+### 2. 告知（Inform）— 告诉它应该知道什么
+
+给 agent 提供足够的上下文，让它理解项目是什么、应该怎么做。
+
+**① CLAUDE.md**——最主要的告知手段。你要在一个项目里开始用 Claude Code，第一件事不是让 agent 写代码，而是先准备一份 `CLAUDE.md`。可以自己写，也可以用 `/init` 让 Claude Code 生成草稿再修改。一份基本的 `CLAUDE.md` 长这样：
+
+```markdown
+# MyApp
+
+电商后台管理系统，Next.js + TypeScript。
+
+## 常用命令
+
+- 开发：`npm run dev`
+- 构建：`npm run build`
+- 类型检查：`npx tsc --noEmit`
+- 测试单文件：`npm test -- path/to/file`
+
+## 代码风格
+
+- 使用 ES modules（import/export），不用 CommonJS（require）
+- 组件用函数式 + hooks，不用 class
+
+## 架构
+
+- 状态管理：Zustand，store 文件在 src/stores/
+- API 层：src/api/，所有请求走 fetchClient 封装
+```
+
+这样 agent 一进来就知道项目长什么样、该用什么风格写代码。
+
+**② Skills（按需加载的知识）**——CLAUDE.md 里的内容每次对话都会加载，适合放常用信息。但有些知识只在特定场景才用到（比如部署流程、数据库操作规范），每次都加载就是浪费。Skills 是放在 `.claude/skills/` 目录下的独立文件，agent 在遇到相关任务时才会自动读取。把 CLAUDE.md 想象成新同事入职第一天要看的手册，Skills 是他遇到具体问题时翻的参考文档。
+
+**③ 代码仓库本身**——agent 会读你项目里的代码、README、注释。代码组织得越清晰，agent 就越容易理解项目。反过来说，**agent 看不到的信息等于不存在**——你脑子里知道的决策，如果没写进项目里，agent 永远不会知道。
+
+---
+
+### 3. 验证（Verify）— 确认它做对了没
+
+光告诉 agent "要做对"不够，你需要有手段检测它到底做对了没有。
+
+**① CLAUDE.md 里要求它自查**——在 `CLAUDE.md` 里加一条：
+
+```
+YOU MUST: 每次修改代码后运行 npm run build 确认没有报错。
+```
+
+这样 agent 改完一段代码后会自己跑一次构建检查。如果报错了，它会看到错误信息并尝试修复——这就形成了一个自动的反馈循环。但跟约束一样，这还是"请求"，agent 偶尔会忘。
+
+**② Hook 自动验证**——如果发现它有时候忘了跑检查，可以升级成 Hook。比如设一个 Hook：agent 每次编辑完文件，系统自动跑一次代码格式化或类型检查，不需要 agent "记得"，系统替它做了。这是验证模块最核心的手段——**不靠 agent 自觉，靠系统保证**。
+
+**③ 测试**——让 agent 先写测试，再写实现。测试通过才算功能完成。如果 agent 改坏了已有功能，测试会立刻报错，agent 看到报错就会去修。测试就像一张安全网，兜住 agent 可能犯的错。
+
+**核心认知：只约束不验证 = 没有约束。** 你告诉它"别犯错"没用，你得有手段检测到它犯了错。
+
+---
+
+### 4. 纠正（Correct）— 出错了怎么办
+
+agent 一定会犯错。关键不是"如何避免一切错误"，而是"犯了错之后怎么让它不再犯"。纠正的重点在于**升级链路**——同样的错不应该犯第二次：
+
+**① 对话里直接纠正**——你让 agent 生成一段代码，发现它用了你不想要的写法。你说："不要用 class 写法，用函数式写法。"它改了，这次对了。但这只解决了当前这一次对话。
+
+**② 写进 CLAUDE.md 防重犯**——下次开一个新对话，agent 不记得上次你纠正过它。所以你把这条写进 `CLAUDE.md`：
+
+```
+组件用函数式写法，不用 class 写法。
+```
+
+这样每次新对话它都会读到这条规则。大部分时候管用，但偶尔还是会忘。
+
+**③ 升级成 Hook 或测试**——比如你发现 agent 的代码格式总是不统一，CLAUDE.md 里写了规则但不是每次都遵守。于是你加一个 Hook：每次 agent 编辑文件，系统自动跑代码格式化工具——从"请求它做对"变成"系统保证做对"。或者加一个测试，agent 一写错，测试就报错，它就知道要改。
+
+**核心认知：每踩一个坑，补一块砖。** 对话纠正 → 写进 CLAUDE.md → 升级成 Hook 或测试。Harness 就是这样一点一点长出来的。
+
+## 如何开始
+
+不需要一步到位。三步就能建立起基本的 harness：
+
+1. **给项目写一个 CLAUDE.md**——先把项目结构、常用命令和编码规范写进去，让 agent 知道它在哪、该怎么做
+2. **下次 agent 犯错，别只在对话里纠正**——想一下"我能加什么规则让它不再犯？"然后写进 CLAUDE.md
+3. **发现 CLAUDE.md 写了它还是不听？**——考虑升级成 Hook，把"建议"变成"机制"
+
+Harness 不是一次设计好的系统，而是在日常使用中一点一点积累出来的。用得越多，踩坑越多，harness 就越结实。
 
 ## 参考资源
 
 - [Martin Fowler: Harness Engineering](https://martinfowler.com/articles/harness-engineering.html) — 最权威的概念框架
-- [OpenAI: Harness Engineering](https://openai.com/index/harness-engineering/) — OpenAI 用 Codex 构建百万行代码的实战经验
 - [Red Hat: Structured Workflows](https://developers.redhat.com/articles/2026/04/07/harness-engineering-structured-workflows-ai-assisted-development) — 多仓库项目实操指南
 - [HumanLayer: Skill Issue](https://www.humanlayer.dev/blog/skill-issue-harness-engineering-for-coding-agents) — Claude Code 专项，深入 Skills 和 Sub-agents
 - [NxCode: Complete Guide](https://www.nxcode.io/resources/news/harness-engineering-complete-guide-ai-agent-codex-2026) — 全面介绍，含四大模块详解
