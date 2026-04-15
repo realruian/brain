@@ -6,7 +6,7 @@
     ".git",
     ".vercel"
   ],
-  "showLineNumber": true,
+  "showLineNumber": false,
   "newFileLocation": "current",
   "trashOption": "local"
 }
