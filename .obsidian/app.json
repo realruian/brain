@@ -5,5 +5,8 @@
     "dist",
     ".git",
     ".vercel"
-  ]
+  ],
+  "showLineNumber": true,
+  "newFileLocation": "current",
+  "trashOption": "local"
 }
