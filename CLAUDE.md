@@ -22,6 +22,7 @@
 ## 当前项目
 
 - Design Studio — 美团内部 AI 设计平台（代码仓库: ~/dev/meituan/design-studio）
+- Gundam-head-FN — 美食头图海报生成器，OpenClaw Skill 交付（代码仓库: ~/dev/meituan/Gundam-head-FN）
 - Vibe Voice — macOS Electron 语音笔记 app（代码仓库: ~/dev/personal/vibe-voice）
 
 ## 关于我

@@ -94,10 +94,17 @@ YOU MUST: 每次改完代码运行类型检查
 
 ### 多层级 CLAUDE.md
 
-- `~/.claude/CLAUDE.md` — 全局，所有项目生效（个人偏好）
-- `./CLAUDE.md` — 项目根目录，提交到 Git 团队共享
-- `./CLAUDE.local.md` — 个人项目覆盖，加入 .gitignore
-- 子目录的 `CLAUDE.md` — Claude 处理该目录文件时自动加载
+| 层级     | 路径                                                  | 放什么                         |
+| ------ | --------------------------------------------------- | --------------------------- |
+| 组织策略   | `/Library/Application Support/ClaudeCode/CLAUDE.md` | 全组织统一规则                     |
+| 全局     | `~/.claude/CLAUDE.md`                               | 跨项目个人规则，尽量短                 |
+| 项目（个人） | `项目根目录/CLAUDE.local.md`                             | 个人覆盖，加入 .gitignore          |
+| 子目录    | 子目录下的 `CLAUDE.md`                                   | Claude 处理该目录文件时自动加载         |
+| 模块化规则  | `.claude/rules/*.md`                                | 可用 `paths:` 限定作用范围，支持符号链接   |
+| 项目（共享） | `项目根目录/CLAUDE.md`                                   | 编码规范、常用命令、架构、不能动的文件，提交到 Git |
+| 笔记库    | `~/Brain/CLAUDE.md`                                 | Obsidian vault 的组织规则、当前项目路径 |
+
+用 `@path/to/file` 语法引用外部文件，最多递归 5 层。HTML 注释 `<!-- -->` 会被自动剥离，可以用来写只给人看的备注。
 
 ### 用 Hook 替代 CLAUDE.md 规则
 

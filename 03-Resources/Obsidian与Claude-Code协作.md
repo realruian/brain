@@ -35,17 +35,9 @@ CLAUDE_CODE_NEW_INIT=1 claude
 
 ### 1.2 CLAUDE.md 层级结构
 
-| 层级     | 路径                                                  | 放什么                         |
-| ------ | --------------------------------------------------- | --------------------------- |
-| 组织策略   | `/Library/Application Support/ClaudeCode/CLAUDE.md` | 全组织统一规则                     |
-| 全局     | `~/.claude/CLAUDE.md`                               | 跨项目个人规则，尽量短                 |
-| 项目（共享） | `项目根目录/CLAUDE.md`                                   | 编码规范、常用命令、架构、不能动的文件，提交到 Git |
-| 项目（个人） | `项目根目录/CLAUDE.local.md`                             | 个人覆盖，加入 .gitignore          |
-| 子目录    | 子目录下的 `CLAUDE.md`                                   | Claude 处理该目录文件时自动加载         |
-| 模块化规则  | `.claude/rules/*.md`                                | 可用 `paths:` 限定作用范围，支持符号链接   |
-| 笔记库    | `~/Brain/CLAUDE.md`                                 | Obsidian vault 的组织规则、当前项目路径 |
+CLAUDE.md 支持 7 个层级（组织策略、全局、项目共享、项目个人、子目录、模块化规则、笔记库），完整说明见 [[CLAUDE-MD编写指南#多层级 CLAUDE.md]]。
 
-用 `@path/to/file` 语法引用外部文件，最多递归 5 层。HTML 注释 `<!-- -->` 会被自动剥离，可以用来写只给人看的备注。
+关键要点：全局的尽量短（放跨项目规则），项目的写详细（编码规范、命令、架构）。用 `@path/to/file` 引用外部文件避免内容膨胀。
 
 ### 1.3 在 Obsidian 里建立项目笔记
 
