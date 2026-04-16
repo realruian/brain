@@ -97,3 +97,33 @@ date: 2026-04-14
 ---
 
 ## 进展记录
+
+### 2026-04-17 — 首页细节精修
+
+审查 + 指令模式（Cursor 执行）。今日改动尚未 commit。
+
+**首页模块结构**（当前实际组件清单）：
+
+| 模块 | 位置 | 说明 |
+|---|---|---|
+| TopBar | `components/layout/top-bar.tsx` | fixed，60px，透明背景+右上角头像 `public/avatar-default.png` + "业务"文字 |
+| HeroHeader | `components/home/hero-header.tsx` | "设计需求 快人一步" + "人人都是设计师" |
+| StickySceneTabBar | `components/home/home-shell.tsx:49` | 包装 SceneTabBar 的全宽吸顶条，白底 90% + 10px 模糊 + 淡灰分割线 |
+| SceneTabBar | `components/home/scene-tab-bar.tsx` | 6 个场景 Tab，`pt-6 pb-0` 让下划线贴底部分割线 |
+| CreationPanel | `components/home/creation-panel.tsx` | 上传图片入口用 `public/icons/upload-image.svg` |
+| FeatureCards | `components/home/feature-cards.tsx` | AI 图像处理卡片组，1~5 列响应式 |
+| TemplateGrid + TemplateCard | `components/home/template-grid.tsx` / `template-card.tsx` | 瀑布流，hover 显示底部 62px 黑色蒙版（`bg-black/40 backdrop-blur-[10px]`）+ 10px 模板名 + 194×28 橙色按钮 |
+| HomeShell / HomeMain | `components/home/home-shell.tsx` / `home-main.tsx` | 客户端壳 + 主内容区组织 |
+
+**背景层**（`app/page.tsx`）：基础渐变 + MP4 视频均用 `fixed inset-0` 覆盖视口（不是 `absolute`，后者会随父容器整页高度拉伸导致画面异常放大）。
+
+**滚动交互**：StickySceneTabBar 用 scroll + requestAnimationFrame 同步 stuck 状态（避免 IntersectionObserver 异步延迟 + CSS transition 叠加产生的白底拖尾）。CSS 过渡非对称：stuck=true 走 150ms 平滑淡入，stuck=false 走 0ms 瞬时消失。
+
+**已清理**：`components/home/scroll-context.tsx`（ScrollProvider / useScrolled 零消费者）已从代码库删除。
+
+**踩坑教训**：
+- Tailwind v4 默认 border-color 是 `currentColor`（v3 是 `gray-200`）。条件切换 border 时要让 `border-b` 常驻、只切颜色，避免切换瞬间 `currentColor` 闪一帧
+- Figma 原稿数值是权威，不要用"视觉直觉"建议覆盖（比如 TopBar 是不是要加高）
+- 全屏背景媒体用 `fixed` 不要 `absolute`
+
+### 2026-04-14 以前
