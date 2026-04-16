@@ -4,8 +4,8 @@
   "title": "Reorganize Brain resources",
   "titleGenerationStatus": "success",
   "createdAt": 1776235867437,
-  "updatedAt": 1776306955870,
-  "lastResponseAt": 1776306955870,
+  "updatedAt": 1776338188637,
+  "lastResponseAt": 1776338188637,
   "sessionId": "40c935b3-41ec-44eb-84dc-b975988321b3",
   "providerState": {
     "providerSessionId": "40c935b3-41ec-44eb-84dc-b975988321b3"
@@ -13,11 +13,11 @@
   "usage": {
     "model": "opus",
     "inputTokens": 3,
-    "cacheCreationInputTokens": 51713,
-    "cacheReadInputTokens": 0,
+    "cacheCreationInputTokens": 1127,
+    "cacheReadInputTokens": 74732,
     "contextWindow": 200000,
-    "contextTokens": 51716,
-    "percentage": 26,
+    "contextTokens": 75862,
+    "percentage": 38,
     "contextWindowIsAuthoritative": true
   }
 }
