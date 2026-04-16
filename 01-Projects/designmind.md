@@ -26,17 +26,17 @@ date: 2026-04-16
 
 ## 技术栈
 
-| 类别 | 技术 | 版本 |
-|------|------|------|
-| 框架 | Next.js（App Router）| 16.2.2 |
-| UI | React + TypeScript | 19 / 5 |
-| 样式 | Tailwind CSS 4 + 自定义设计令牌 | 4 |
-| 数据库 | PostgreSQL（`postgres` 包，无 ORM）| postgres ^3.4 |
-| 存储 | S3 兼容（`@aws-sdk/client-s3`）| ^3 |
-| PSD 解析 | `ag-psd` + `@napi-rs/canvas` | ^30 |
-| 图像处理 | `sharp` | ^0.34 |
-| 截图导出 | `puppeteer-core` + `@sparticuz/chromium-min` | ^24 |
-| 图标 | `lucide-react` | ^1.7 |
+| 类别     | 技术                                           | 版本            |
+| ------ | -------------------------------------------- | ------------- |
+| 框架     | Next.js（App Router）                          | 16.2.2        |
+| UI     | React + TypeScript                           | 19 / 5        |
+| 样式     | Tailwind CSS 4 + 自定义设计令牌                     | 4             |
+| 数据库    | PostgreSQL（`postgres` 包，无 ORM）               | postgres ^3.4 |
+| 存储     | S3 兼容（`@aws-sdk/client-s3`）                  | ^3            |
+| PSD 解析 | `ag-psd` + `@napi-rs/canvas`                 | ^30           |
+| 图像处理   | `sharp`                                      | ^0.34         |
+| 截图导出   | `puppeteer-core` + `@sparticuz/chromium-min` | ^24           |
+| 图标     | `lucide-react`                               | ^1.7          |
 
 **开发环境存储**：Supabase（免费 PostgreSQL + S3 Storage）
 **生产部署目标**：公司内网服务器 + Docker PostgreSQL + MinIO
