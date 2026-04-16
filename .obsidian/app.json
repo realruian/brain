@@ -8,5 +8,6 @@
   ],
   "showLineNumber": false,
   "newFileLocation": "current",
-  "trashOption": "local"
+  "trashOption": "local",
+  "alwaysUpdateLinks": true
 }
