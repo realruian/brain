@@ -5,7 +5,7 @@ date: 2026-04-18
 
 # Personal Website · tianruian.com
 
-个人站 + 发布面板，部署在 `tianruian.com`，灵感参考 [dany.works](https://dany.works)。
+个人站 + 发布面板，部署在 `tianruian.com`。
 
 代码仓库：`~/Dev/Personal-website`（GitHub: `realruian/personal-os` · private）
 
@@ -39,6 +39,8 @@ date: 2026-04-18
 - **Admin 发布产生远端 commit**：本地再 push 前必须 `git pull --rebase`，否则会 rejected
 - **iPhone Safari autoplay**：音频不能 autoplay，视频必须 muted + playsinline；首次用户交互后再 play 音频（bootstrapLeavesAudio）
 - **浏览器 keychain 缓存 GitHub 旧凭证**：push 时报 401 没弹输密码窗，用 `git credential-osxkeychain erase` 清掉再推
+- **fine-grained PAT 的 Repository access 必须和 `admin.js` REPO_NAME 同步**：token 权限给对了但 repo 范围错，发布会 403 "Resource not accessible by personal access token"。改范围后同一串 token 立即生效，不用重新生成
+- **"featured 置顶" 不要留在默认内容上**：Claude Design 那条因为最早标了 featured，一直钉在最顶，新发的条目都被压在下面，看起来"顺序很乱"。featured 是临时置顶用，默认按 ts 倒序即可
 
 ---
 
@@ -62,6 +64,19 @@ date: 2026-04-18
 - 3.3 iOS 键盘遮挡修复（VisualViewport API + sticky actions）
 - 3.4 自动翻译（Anthropic API + `anthropic-dangerous-direct-browser-access`）
 - 3.5–3.7 小打磨：howto 去边框、shader 占位、默认夏夜模式
+
+**Phase 4**（晚上收工前）：视觉与性能微调
+- 点击图片全屏 lightbox（Esc / 点背景关闭）
+- Col 3 图片统一 3:2 长方形 + object-fit cover（正方形占屏过多问题）
+- shader hover 淡出 220ms → 700ms（更舒缓）
+- Col 3 图片上下间距 24px，和左侧分割线 padding 等宽
+- 滚轮路由简化：鼠标不在任一列时只滚 col2（不再接替 col3）
+- intro 多行层级：名字 14px 主色 + 现职/过往 12px 淡化
+- Col 3 排序修正：误以为按 ts，实际按数组位置
+- 去掉 Claude Design 的 featured，让一切按时间倒序
+- 去掉空的 Writing / Lab section（没内容时不占位）
+- forest.mp3 压缩 1.9MB → 1.5MB
+- Harness 补救：建项目 CLAUDE.md / Obsidian 笔记 / 登记 Brain/CLAUDE.md / plan 瘦身 560+ → 60 行
 
 ---
 
