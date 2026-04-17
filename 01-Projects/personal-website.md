@@ -82,6 +82,24 @@ date: 2026-04-18
 - forest.mp3 压缩 1.9MB → 1.5MB
 - Harness 补救：建项目 CLAUDE.md / Obsidian 笔记 / 登记 Brain/CLAUDE.md / plan 瘦身 560+ → 60 行
 
+**Phase 5**（深夜翻车）：防御加固 + flicker 修复未果
+- admin.js 加 escapeHtml 防 XSS；app.js renderCol2 / renderImages 外套 try/catch 防单条崩整列
+- 压缩 forest.mp3 64kbps（首屏流量优化）；去掉空的 Writing / Lab section
+- 追加"刷新时图片变扁 flicker"修复尝试 **6 次全败**：
+  1. `.img-wrap` 加 `aspect-ratio` + img `height:100%`
+  2. `.img-wrap` 加 `width:100%`
+  3. img 加 `position: absolute; inset: 0`
+  4. 换 padding-bottom hack（用户拒绝老派方案）
+  5. aspect-ratio 从 parent 挪到 img 本身
+  6. img 加 `width="1200" height="800"` HTML attr + CSS `height:auto`
+  7. aspect-ratio 挪回 parent + Col 3 entry 关 reveal 动画
+  8. parent 加 `contain: size layout`
+  9. shader 未 ready 前 img `opacity:0`
+- Console `getBoundingClientRect()` 诊断证明稳定态 `.img-wrap` ratio=1.500 一直正确，变形只在刷新一帧内
+- 最终 `git checkout ea96ee9 -- styles.css index.html js/app.js` 回滚所有失败尝试
+- 最大教训：**无精确数据就不要连续改 6 次**。每次改前应先用 ResizeObserver / Performance 拿到"问题那一帧"的真实状态
+- Harness 第二次补救：项目 CLAUDE.md 加"flicker 未解决"警告 + plan 精简 + 日报补晚场
+
 ---
 
 ## 下一步想做
