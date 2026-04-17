@@ -25,6 +25,7 @@
 - Gundam-head-FN — 美食头图海报生成器，OpenClaw Skill 交付（代码仓库: ~/dev/meituan/Gundam-head-FN）
 - Vibe Voice — macOS Electron 语音笔记 app（代码仓库: ~/dev/personal/vibe-voice）
 - DesignMind — 公司内部 AI 设计图像生产平台，参考淘天 AI 设计师（代码仓库: ~/Desktop/Dev/designmind）
+- Personal Website — tianruian.com 个人站 + 发布面板，灵感参考 dany.works（代码仓库: ~/Dev/Personal-website · GitHub: realruian/personal-os private）
 
 ## 关于我
 
