@@ -6,9 +6,6 @@ tags:
   - 参考
 date: 2026-04-16
 ---
-
-# Harness 构建指南
-
 给 Claude Code 搭建约束系统的实操手册。不是教你手写规则文件，而是教你**指挥 Claude 构建 harness，然后审查和迭代它**。
 
 ## 一、Agent = Model + Harness
