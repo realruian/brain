@@ -2,6 +2,8 @@
 tags: [项目, 个人, 个人站, 静态站, Vercel]
 date: 2026-04-18
 ---
+0418：
+读 ~/Dev/Personal-website/CLAUDE.md 和 ~/Brain/01-Projects/personal-website.md， 看 plan 的活跃任务和最近 git log，告诉我从哪里继续
 
 # Personal Website · tianruian.com
 
