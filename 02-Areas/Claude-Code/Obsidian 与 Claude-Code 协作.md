@@ -24,7 +24,7 @@ CLAUDE_CODE_NEW_INIT=1 claude
 /init
 ```
 
-层级体系、写作规范和迭代方法见 [[Harness构建指南]]。
+层级体系、写作规范和迭代方法见 [[Harness 构建指南]]。
 
 ### Skills（按需加载的知识）
 
