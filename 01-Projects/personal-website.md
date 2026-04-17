@@ -43,8 +43,9 @@ date: 2026-04-18
 - **浏览器 keychain 缓存 GitHub 旧凭证**：push 时报 401 没弹输密码窗，用 `git credential-osxkeychain erase` 清掉再推
 - **fine-grained PAT 的 Repository access 必须和 `admin.js` REPO_NAME 同步**：token 权限给对了但 repo 范围错，发布会 403 "Resource not accessible by personal access token"。改范围后同一串 token 立即生效，不用重新生成
 - **"featured 置顶" 不要留在默认内容上**：Claude Design 那条因为最早标了 featured，一直钉在最顶，新发的条目都被压在下面，看起来"顺序很乱"。featured 是临时置顶用，默认按 ts 倒序即可
-- **Col 3 图片刷新时 flicker（暂未解决）**：首次打开没事，但刷新时图片瞬间变扁再恢复 3:2。尝试 6 次修复（parent aspect-ratio / img aspect-ratio / padding-bottom / `contain:size` / img opacity:0 等）都没成功。Console 诊断证明稳定态 parent 一直是 3:2，变形只发生在刷新的一帧内。放弃瞎修，CSS 回到 `ea96ee9` 简单状态。**下次再啃前必须先抓精确诊断数据**（DevTools Elements computed panel 在变形瞬间截图，或 Performance 录制 reload），不要再凭假设改 CSS
+- **~~Col 3 图片刷新时 flicker~~（2026-04-19 已解决）**：真凶不是 box 几何，是 `data-shader-init` 标志被太早设了 —— shader-init=1 在 React mount + WebGL 编译之前就触发，CSS `:not()::after` 占位提前让位，露出 img 原图到 shader 接管之间的视觉切换。修复：标志移到 `root.render` + double RAF 之后才设，防重复 init 用内部 `_shaderStarted` flag 解耦。本地一直丝滑是因为本地 RTT ~0ms，race window 太短人眼看不到；线上 ~500ms window 才显形。**不是 Vercel 性能不足，是物理网络延迟**
 - **盲改教训**：没有精确数据时不要连续改同一个文件 6 次。每次改之前应该先用 ResizeObserver / Performance 等工具拿到"问题发生那一帧"的真实状态。没数据的修改 = 在概率分布里随机抽样，6 次抽不中就是 6 次浪费
+- **诊断时序 race 不能只看 layout**：之前 6 次失败全在 layout 维度（aspect-ratio / contain / padding-bottom）打转。`performance.getEntriesByType('layout-shift')` 一直是空数组本来就该警觉 —— box 没动 ≠ 没 flicker，可能是像素层面的视觉切换。排查工具应该并行：`getEntriesByType('resource')` 看资源时序、`drawImage + getImageData` 验证 img 像素 vs 屏幕像素、截屏看实际渲染
 
 ---
 
@@ -85,20 +86,20 @@ date: 2026-04-18
 **Phase 5**（深夜翻车）：防御加固 + flicker 修复未果
 - admin.js 加 escapeHtml 防 XSS；app.js renderCol2 / renderImages 外套 try/catch 防单条崩整列
 - 压缩 forest.mp3 64kbps（首屏流量优化）；去掉空的 Writing / Lab section
-- 追加"刷新时图片变扁 flicker"修复尝试 **6 次全败**：
-  1. `.img-wrap` 加 `aspect-ratio` + img `height:100%`
-  2. `.img-wrap` 加 `width:100%`
-  3. img 加 `position: absolute; inset: 0`
-  4. 换 padding-bottom hack（用户拒绝老派方案）
-  5. aspect-ratio 从 parent 挪到 img 本身
-  6. img 加 `width="1200" height="800"` HTML attr + CSS `height:auto`
-  7. aspect-ratio 挪回 parent + Col 3 entry 关 reveal 动画
-  8. parent 加 `contain: size layout`
-  9. shader 未 ready 前 img `opacity:0`
+- 追加"刷新时图片变扁 flicker"修复尝试 **6 次全败**（全在 layout 维度打转：aspect-ratio / contain / padding-bottom / opacity 等）
 - Console `getBoundingClientRect()` 诊断证明稳定态 `.img-wrap` ratio=1.500 一直正确，变形只在刷新一帧内
 - 最终 `git checkout ea96ee9 -- styles.css index.html js/app.js` 回滚所有失败尝试
 - 最大教训：**无精确数据就不要连续改 6 次**。每次改前应先用 ResizeObserver / Performance 拿到"问题那一帧"的真实状态
-- Harness 第二次补救：项目 CLAUDE.md 加"flicker 未解决"警告 + plan 精简 + 日报补晚场
+
+### 2026-04-19 · flicker 真凶定位 + 一行修复
+
+- 用 Chrome MCP 在线上跑全套诊断：`performance.getEntriesByType('layout-shift')` 返回空数组、ResizeObserver 在 src 重置时零回调 —— 证实 **box 几何完全稳定，flicker 不是 layout 问题**
+- 用 `drawImage + getImageData` 采样 img 像素：彩色（RGB diff 16.8）；截屏看屏幕：黑白 halftone —— 证实 shader 在 img 之上覆盖渲染
+- 读 `js/shaders.js` 找到真凶：`wrap.dataset.shaderInit = '1'` 在 line 24 就设了，但 React mount + WebGL 编译要到 line 37 之后才完成。CSS `:not([data-shader-init="1"])::after` 占位**提前 200-600ms 让位**，露出原图 → halftone 的视觉切换窗口
+- 修复：标志位移到 `root.render` + double RAF 之后；防重复 init 改用内部 `_shaderStarted` flag 解耦（commit `1b861ab`）
+- 推线上验证：丝滑，flicker 完全消失，达到 dany.works 同等水准
+- **关键教训**：本地 RTT ~0ms 时 race window <10ms 看不见，线上 ~500ms 看得很清楚。"本地没事 → 线上有事"几乎一定是物理网络延迟，不是 Vercel 性能问题
+- **诊断方法学补充**：layout-shift entries 空数组就该立刻切到像素 / 时序维度，不要在 layout 维度死磕
 
 ---
 
