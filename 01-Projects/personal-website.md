@@ -43,6 +43,8 @@ date: 2026-04-18
 - **浏览器 keychain 缓存 GitHub 旧凭证**：push 时报 401 没弹输密码窗，用 `git credential-osxkeychain erase` 清掉再推
 - **fine-grained PAT 的 Repository access 必须和 `admin.js` REPO_NAME 同步**：token 权限给对了但 repo 范围错，发布会 403 "Resource not accessible by personal access token"。改范围后同一串 token 立即生效，不用重新生成
 - **"featured 置顶" 不要留在默认内容上**：Claude Design 那条因为最早标了 featured，一直钉在最顶，新发的条目都被压在下面，看起来"顺序很乱"。featured 是临时置顶用，默认按 ts 倒序即可
+- **Col 3 图片刷新时 flicker（暂未解决）**：首次打开没事，但刷新时图片瞬间变扁再恢复 3:2。尝试 6 次修复（parent aspect-ratio / img aspect-ratio / padding-bottom / `contain:size` / img opacity:0 等）都没成功。Console 诊断证明稳定态 parent 一直是 3:2，变形只发生在刷新的一帧内。放弃瞎修，CSS 回到 `ea96ee9` 简单状态。**下次再啃前必须先抓精确诊断数据**（DevTools Elements computed panel 在变形瞬间截图，或 Performance 录制 reload），不要再凭假设改 CSS
+- **盲改教训**：没有精确数据时不要连续改同一个文件 6 次。每次改之前应该先用 ResizeObserver / Performance 等工具拿到"问题发生那一帧"的真实状态。没数据的修改 = 在概率分布里随机抽样，6 次抽不中就是 6 次浪费
 
 ---
 
