@@ -1,4 +1,4 @@
-# 先搭 Harness 再写代码：Claude Code 开新项目的第一小时
+# 先搭 Harness 再写代码：Claude Code Harness 速查
 
 > Harness 指的是你围绕 Claude Code 搭起来的工作台 —— 项目里的 CLAUDE.md、知识库里的项目笔记、Hooks、Skills。搭好之后每次对话不用重新铺垫上下文。
 
