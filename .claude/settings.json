@@ -1,7 +1,11 @@
 {
   "permissions": {
     "allow": [
-      "Write(/Users/tianruian/.claude/CLAUDE.md)"
+      "Write(/Users/tianruian/.claude/CLAUDE.md)",
+      "Write(/Users/tianruian/.claude/hooks/harness-session-start.sh)",
+      "Edit(/Users/tianruian/.claude/settings.json)",
+      "Bash(mkdir -p ~/.claude/skills/new-project && ls ~/.claude/skills/ 2>/dev/null)",
+      "Edit(~/.claude/skills/new-project/**)"
     ]
   }
 }
