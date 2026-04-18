@@ -4,8 +4,8 @@
   "title": "Create CLAUDE.md with development rules",
   "titleGenerationStatus": "success",
   "createdAt": 1776263163192,
-  "updatedAt": 1776520020323,
-  "lastResponseAt": 1776520020323,
+  "updatedAt": 1776520615740,
+  "lastResponseAt": 1776520615740,
   "sessionId": "4fa5fae1-2672-4206-8d93-64abc9235667",
   "providerState": {
     "providerSessionId": "4fa5fae1-2672-4206-8d93-64abc9235667"
@@ -13,11 +13,11 @@
   "usage": {
     "model": "opus",
     "inputTokens": 1,
-    "cacheCreationInputTokens": 1549,
-    "cacheReadInputTokens": 40428,
+    "cacheCreationInputTokens": 4364,
+    "cacheReadInputTokens": 50682,
     "contextWindow": 200000,
-    "contextTokens": 41978,
-    "percentage": 21,
+    "contextTokens": 55047,
+    "percentage": 28,
     "contextWindowIsAuthoritative": true
   }
 }
