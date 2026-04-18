@@ -43,7 +43,7 @@ date: 2026-04-18
 - **浏览器 keychain 缓存 GitHub 旧凭证**：push 时报 401 没弹输密码窗，用 `git credential-osxkeychain erase` 清掉再推
 - **fine-grained PAT 的 Repository access 必须和 `admin.js` REPO_NAME 同步**：token 权限给对了但 repo 范围错，发布会 403 "Resource not accessible by personal access token"。改范围后同一串 token 立即生效，不用重新生成
 - **"featured 置顶" 不要留在默认内容上**：Claude Design 那条因为最早标了 featured，一直钉在最顶，新发的条目都被压在下面，看起来"顺序很乱"。featured 是临时置顶用，默认按 ts 倒序即可
-- **~~Col 3 图片刷新时 flicker~~（2026-04-19 已解决）**：真凶不是 box 几何，是 `data-shader-init` 标志被太早设了 —— shader-init=1 在 React mount + WebGL 编译之前就触发，CSS `:not()::after` 占位提前让位，露出 img 原图到 shader 接管之间的视觉切换。修复：标志移到 `root.render` + double RAF 之后才设，防重复 init 用内部 `_shaderStarted` flag 解耦。本地一直丝滑是因为本地 RTT ~0ms，race window 太短人眼看不到；线上 ~500ms window 才显形。**不是 Vercel 性能不足，是物理网络延迟**
+- **~~Col 3 图片刷新时 flicker~~（2026-04-18 已解决）**：真凶不是 box 几何，是 `data-shader-init` 标志被太早设了 —— shader-init=1 在 React mount + WebGL 编译之前就触发，CSS `:not()::after` 占位提前让位，露出 img 原图到 shader 接管之间的视觉切换。修复：标志移到 `root.render` + double RAF 之后才设，防重复 init 用内部 `_shaderStarted` flag 解耦。本地一直丝滑是因为本地 RTT ~0ms，race window 太短人眼看不到；线上 ~500ms window 才显形。**不是 Vercel 性能不足，是物理网络延迟**
 - **盲改教训**：没有精确数据时不要连续改同一个文件 6 次。每次改之前应该先用 ResizeObserver / Performance 等工具拿到"问题发生那一帧"的真实状态。没数据的修改 = 在概率分布里随机抽样，6 次抽不中就是 6 次浪费
 - **诊断时序 race 不能只看 layout**：之前 6 次失败全在 layout 维度（aspect-ratio / contain / padding-bottom）打转。`performance.getEntriesByType('layout-shift')` 一直是空数组本来就该警觉 —— box 没动 ≠ 没 flicker，可能是像素层面的视觉切换。排查工具应该并行：`getEntriesByType('resource')` 看资源时序、`drawImage + getImageData` 验证 img 像素 vs 屏幕像素、截屏看实际渲染
 
@@ -91,7 +91,7 @@ date: 2026-04-18
 - 最终 `git checkout ea96ee9 -- styles.css index.html js/app.js` 回滚所有失败尝试
 - 最大教训：**无精确数据就不要连续改 6 次**。每次改前应先用 ResizeObserver / Performance 拿到"问题那一帧"的真实状态
 
-### 2026-04-19 · flicker 真凶定位 + 一行修复
+### 2026-04-18（凌晨续场）· flicker 真凶定位 + 一行修复
 
 - 用 Chrome MCP 在线上跑全套诊断：`performance.getEntriesByType('layout-shift')` 返回空数组、ResizeObserver 在 src 重置时零回调 —— 证实 **box 几何完全稳定，flicker 不是 layout 问题**
 - 用 `drawImage + getImageData` 采样 img 像素：彩色（RGB diff 16.8）；截屏看屏幕：黑白 halftone —— 证实 shader 在 img 之上覆盖渲染
@@ -101,11 +101,21 @@ date: 2026-04-18
 - **关键教训**：本地 RTT ~0ms 时 race window <10ms 看不见，线上 ~500ms 看得很清楚。"本地没事 → 线上有事"几乎一定是物理网络延迟，不是 Vercel 性能问题
 - **诊断方法学补充**：layout-shift entries 空数组就该立刻切到像素 / 时序维度，不要在 layout 维度死磕
 
+### 2026-04-18（凌晨）· Writing section 上线（前后端一把梭）
+
+- 4 月 18 删过的 Writing / Lab 空 section 复活成 Writing，链 Col 1 公众号文章列表（不接 Obsidian Publish / Quartz，直接外链最轻）
+- **数据结构**：`data.json.writing[] = { type: 'writing', ts, title_zh, title_en?, url }`，和 thoughts 一致的双语 fallback
+- **前台**：`renderWriting` 按 ts 倒序 + slice(0,5)，最多展示 5 篇；改 ts 即可调顺序（和 Col 3 数组位置不同）
+- **Admin**：第三个 tab `writing · 文章`，字段是标题中英 + URL；写时无图片上传 / 无 featured / 无翻译；manage 面板支持 writing 的 edit/delete
+- 前台改完截屏立刻验证视觉对，admin 改完用 chrome 临时绕过 auth 截屏看 tab 切换 + 字段对（commit `4e9894a`）
+- 顺手删了 i18n.js 里 `renderLinks('lab-links', dict.lab)` 死代码（lab 字段早删了）
+- **方法学**：分两批做 + 每批末尾 `node -c` & `python3 -c json` & 浏览器查询验证，没出过错；ScheduleWakeup 自动回头检查上线效果
+
 ---
 
 ## 下一步想做
 
-- [ ] Writing 栏真正有内容（Obsidian Publish / Quartz / 或每篇一个外链）
+- [x] ~~Writing 栏真正有内容~~（2026-04-18 凌晨完成，admin 可加新文章）
 - [ ] Col 3 排序机制考虑要不要改成按 ts 自动排（现在改数组位置容易忘）
 - [ ] 移动端 logo 字母 tap 切主题的体验再验一下
 - [ ] 收工时把踩坑沉淀回来到这份笔记
