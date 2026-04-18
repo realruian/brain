@@ -43,11 +43,7 @@ date: 2026-04-18
 - **浏览器 keychain 缓存 GitHub 旧凭证**：push 时报 401 没弹输密码窗，用 `git credential-osxkeychain erase` 清掉再推
 - **fine-grained PAT 的 Repository access 必须和 `admin.js` REPO_NAME 同步**：token 权限给对了但 repo 范围错，发布会 403 "Resource not accessible by personal access token"。改范围后同一串 token 立即生效，不用重新生成
 - **"featured 置顶" 不要留在默认内容上**：Claude Design 那条因为最早标了 featured，一直钉在最顶，新发的条目都被压在下面，看起来"顺序很乱"。featured 是临时置顶用，默认按 ts 倒序即可
-<<<<<<< HEAD
 - **~~Col 3 图片刷新时 flicker~~（2026-04-18 已解决）**：真凶不是 box 几何，是 `data-shader-init` 标志被太早设了 —— shader-init=1 在 React mount + WebGL 编译之前就触发，CSS `:not()::after` 占位提前让位，露出 img 原图到 shader 接管之间的视觉切换。修复：标志移到 `root.render` + double RAF 之后才设，防重复 init 用内部 `_shaderStarted` flag 解耦。本地一直丝滑是因为本地 RTT ~0ms，race window 太短人眼看不到；线上 ~500ms window 才显形。**不是 Vercel 性能不足，是物理网络延迟**
-=======
-- **~~Col 3 图片刷新时 flicker~~（2026-04-19 已解决）**：真凶不是 box 几何，是 `data-shader-init` 标志被太早设了 —— shader-init=1 在 React mount + WebGL 编译之前就触发，CSS `:not()::after` 占位提前让位，露出 img 原图到 shader 接管之间的视觉切换。修复：标志移到 `root.render` + double RAF 之后才设，防重复 init 用内部 `_shaderStarted` flag 解耦。本地一直丝滑是因为本地 RTT ~0ms，race window 太短人眼看不到；线上 ~500ms window 才显形。**不是 Vercel 性能不足，是物理网络延迟**
->>>>>>> origin/main
 - **盲改教训**：没有精确数据时不要连续改同一个文件 6 次。每次改之前应该先用 ResizeObserver / Performance 等工具拿到"问题发生那一帧"的真实状态。没数据的修改 = 在概率分布里随机抽样，6 次抽不中就是 6 次浪费
 - **诊断时序 race 不能只看 layout**：之前 6 次失败全在 layout 维度（aspect-ratio / contain / padding-bottom）打转。`performance.getEntriesByType('layout-shift')` 一直是空数组本来就该警觉 —— box 没动 ≠ 没 flicker，可能是像素层面的视觉切换。排查工具应该并行：`getEntriesByType('resource')` 看资源时序、`drawImage + getImageData` 验证 img 像素 vs 屏幕像素、截屏看实际渲染
 
@@ -95,11 +91,7 @@ date: 2026-04-18
 - 最终 `git checkout ea96ee9 -- styles.css index.html js/app.js` 回滚所有失败尝试
 - 最大教训：**无精确数据就不要连续改 6 次**。每次改前应先用 ResizeObserver / Performance 拿到"问题那一帧"的真实状态
 
-<<<<<<< HEAD
 ### 2026-04-18（凌晨续场）· flicker 真凶定位 + 一行修复
-=======
-### 2026-04-19 · flicker 真凶定位 + 一行修复
->>>>>>> origin/main
 
 - 用 Chrome MCP 在线上跑全套诊断：`performance.getEntriesByType('layout-shift')` 返回空数组、ResizeObserver 在 src 重置时零回调 —— 证实 **box 几何完全稳定，flicker 不是 layout 问题**
 - 用 `drawImage + getImageData` 采样 img 像素：彩色（RGB diff 16.8）；截屏看屏幕：黑白 halftone —— 证实 shader 在 img 之上覆盖渲染
@@ -109,7 +101,6 @@ date: 2026-04-18
 - **关键教训**：本地 RTT ~0ms 时 race window <10ms 看不见，线上 ~500ms 看得很清楚。"本地没事 → 线上有事"几乎一定是物理网络延迟，不是 Vercel 性能问题
 - **诊断方法学补充**：layout-shift entries 空数组就该立刻切到像素 / 时序维度，不要在 layout 维度死磕
 
-<<<<<<< HEAD
 ### 2026-04-18（凌晨）· Writing section 上线（前后端一把梭）
 
 - 4 月 18 删过的 Writing / Lab 空 section 复活成 Writing，链 Col 1 公众号文章列表（不接 Obsidian Publish / Quartz，直接外链最轻）
@@ -120,13 +111,47 @@ date: 2026-04-18
 - 顺手删了 i18n.js 里 `renderLinks('lab-links', dict.lab)` 死代码（lab 字段早删了）
 - **方法学**：分两批做 + 每批末尾 `node -c` & `python3 -c json` & 浏览器查询验证，没出过错；ScheduleWakeup 自动回头检查上线效果
 
-=======
->>>>>>> origin/main
+### 2026-04-18（下半天）· logo I cycle 修 + 双端文案 + 安全加固 + 首屏优化 + 图片压缩
+
+密度很大一天，6 个 commit 一串连推：
+
+**Logo 移动端 tap 体验收尾**
+- 修 `_summerCycle` / `_nightCycle` 初始化问题：默认态 `leaves` 在身上但 cycle=0，首次 tap I 走错分支看起来没反应。改成从 `body.classList` 实时推断当前态，删掉两个状态变量 —— 键鼠盘混用也不会错位（commit `a028c57`）
+
+**howto 文案桌面 / 移动分两份**
+- `i18n.js` 加 `howto_mobile` 中英双份，`applyI18n` 按 `matchMedia('(max-width: 768px)')` 选；窗口 resize 跨阈值自动重刷。桌面显示 D/N/S/M/R/C 键盘说明，移动端换成 T/I/A/N tap logo 说明（commit `40cad55`）
+
+**代码层安全加固（P0 + P1）**
+- 火山引擎买的域名本身没问题（字节系正规），真风险在账户 + 代码层
+- P0 新增 `vercel.json`：HSTS(2y,includeSubDomains,**不 preload 保可逆**) / X-Content-Type-Options / X-Frame-Options:DENY / Referrer-Policy / Permissions-Policy / admin.html X-Robots-Tag。curl -I 六项全上线（commit `21cdf56`）
+- P1 锁 esm.sh CDN：`index.html:20-22` + `js/shaders.js:5-7` 共 6 处 `@18` → `@18.3.1`。防未来 esm.sh 自动滚到被投毒的新版本（commit `b4774ee`）
+- 放弃 SRI 和自托管：esm.sh `vary: User-Agent` 导致不同浏览器拿不同 transform 产物，SRI hash 必 mismatch 让 shader 挂；自托管要递归镜像 re-export 链，复杂易坏
+- 放弃 admin pre-gate：F12 可绕，价值低，发布体验反而变差
+
+**首屏 shader 占位改 SVG hex pattern**
+- 原 `radial-gradient` square 网格和 shader 的 hex 网格视觉差异大。改 SVG inline data URL，tile 6×10.39 + r=0.6 + 点色 `#2B2B2B` 硬编码匹配 shader `colorFront`
+- 迭代三次找到合适密度：10×17.32(r=1.2) 太稀 → 6×10.39(r=1.2) 太大 → 6×10.39(r=0.6) 刚好（commits `82a840c` / `9f22307` / `f28fa4f`）
+- 本地看不出差别（shader 秒起，占位窗口太短）**验收窗口在线上**（~500ms）。和之前 flicker 教训一脉相承：本地 RTT ~0ms 看不到，线上才显形
+
+**图片压缩双轨**
+- **新图自动压缩**：`admin.js` 加 `compressImage(file)`，Canvas resize 到 2000px + `toBlob('image/webp', 0.85)`，不支持 WebP 回退 JPEG，GIF 原样保留。手机 3-5MB 原图 → 300-500KB（commit `002d0d1`）
+- **历史图片批量清理**：选方案 A 最保守 —— sips resize 2000px + quality 80 重编码 JPEG，**保留 .jpg 扩展名不动 `data.json`**（零 url 迁移风险）。8 张 jpg 8.4MB → 3.6MB（-57%），大图单张降 71-75%。备份 tag `backup-before-img-compress` 留本地（commit `04d5c8a`）
+- 方案 B（cwebp 转 WebP + 改 data.json）放弃：扩展名和 json 字段同步的出错面大，用户明确"千万不能导致网页出问题"的红线决定优先保守
+
+**生产站红线法则（沉淀到项目 CLAUDE.md）**
+- `tianruian.com` 线上站，改动优先级 **安全 > 可用性 > 完美度**
+- 不做"理论更好但风险高"的改动（SRI / 自托管 / admin gate / HSTS preload / cwebp 改 json）
+- 选最小有效改动（CDN 版本锁、历史图片压缩保留扩展名、SVG hex 不动时序）
+- 持久化决策（HSTS preload、force push、DNS 切换）先想回滚路径，想不清就不做
+
 ---
 
 ## 下一步想做
 
 - [x] ~~Writing 栏真正有内容~~（2026-04-18 凌晨完成，admin 可加新文章）
+- [x] ~~移动端 logo 字母 tap 切主题的体验再验一下~~（2026-04-18 下半天修了 I cycle 错位 bug + 加了移动端 howto 文案）
+- [x] ~~收工时把踩坑沉淀回来到这份笔记~~（2026-04-18 下半天完成，harness 本条 + 项目 CLAUDE.md 更新了安全 & CDN 章节、图片压缩章节、生产站红线教训）
 - [ ] Col 3 排序机制考虑要不要改成按 ts 自动排（现在改数组位置容易忘）
-- [ ] 移动端 logo 字母 tap 切主题的体验再验一下
-- [ ] 收工时把踩坑沉淀回来到这份笔记
+- [ ] 观察新 SVG hex 占位线上效果是否还有切换感；不够彻底考虑做 shader ready 时交叉淡入（但要碰 shader-init 时序，风险高）
+- [ ] 观察 admin 自动压缩在真机实际发图时是否稳定（iOS Safari Canvas toBlob WebP 兼容性、HEIC decode 兼容）
+- [ ] 几天后观察稳定后删本地备份 tag：`git tag -d backup-before-img-compress`
