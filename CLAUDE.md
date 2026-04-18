@@ -24,8 +24,8 @@
 - Design Studio — 美团内部 AI 设计平台（代码仓库: ~/dev/meituan/design-studio）
 - Gundam-head-FN — 美食头图海报生成器，OpenClaw Skill 交付（代码仓库: ~/dev/meituan/Gundam-head-FN）
 - Vibe Voice — macOS Electron 语音笔记 app（代码仓库: ~/dev/personal/vibe-voice）
-- DesignMind — 公司内部 AI 设计图像生产平台，参考淘天 AI 设计师（代码仓库: ~/Desktop/Dev/designmind）
 - Personal Website — tianruian.com 个人站 + 发布面板，灵感参考 dany.works（代码仓库: ~/Dev/Personal-website · GitHub: realruian/personal-os private）
+- 营销资源位自动生成器 — 外卖运营营销图片生成工具（HTML + Playwright + Pillow），支持运营卡片 / 固定位 Banner / 会场头图 / 洛阳牡丹头图
 
 ## 关于我
 
