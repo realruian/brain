@@ -43,7 +43,8 @@
       "environmentVariables": "",
       "environmentHash": "",
       "installationMethodsByHost": {
-        "MT-TRA-MBP.local": "native-windows"
+        "MT-TRA-MBP.local": "native-windows",
+        "tianruiandeMacBook-Pro.local": "native-windows"
       },
       "wslDistroOverridesByHost": {}
     }
