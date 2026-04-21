@@ -2,9 +2,6 @@
 tags: [项目, 美团, AI设计, design-studio]
 date: 2026-04-14
 ---
-
-# Design Studio
-
 美团内部 AI 驱动的设计素材自助生产平台。
 
 代码仓库：`~/dev/meituan/design-studio`
