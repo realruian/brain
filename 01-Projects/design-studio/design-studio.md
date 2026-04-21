@@ -2,9 +2,11 @@
 tags: [项目, 美团, AI设计, design-studio]
 date: 2026-04-14
 ---
-美团内部 AI 驱动的设计素材自助生产平台。
+美团内部 AI 驱动的设计素材自助生产平台（**产品名：外卖营销 AI 业务自助化设计工具**，暂定名）。
 
-代码仓库：`~/dev/meituan/design-studio`
+- 代码仓库：`~/dev/meituan/design-studio`（`design-studio` 是本地代码目录名，不等于产品名）
+- 当前 PRD：[[PRD/PRD-v1-外卖营销AI自助化设计工具]]（v1.0 评审中，作者田睿安）
+- 文档目录：`PRD/` · `技术方案/` · `会议纪要/` · `设计稿/`
 
 ---
 
