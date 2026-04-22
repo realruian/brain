@@ -95,7 +95,57 @@ date: 2026-04-14
 
 ---
 
+## 已知坑点（2026-04-22 沉淀）
+
+- **PSD 字体名两套体系**：PSD 里存 PostScript 名（如 `FZLTDHJW--GB1-0`），前端下拉显示自定义 family 名（如 `MeiTuan`）。服务端 `app/api/export/psd/route.ts` 里的 `FAMILY_WEIGHT_TO_PS` map 负责对齐。改字体列表要两边同步，Skia `matchFamilyStyle` 按 family 字符串精确匹配，不认 PostScript name 字段。
+- **长文本推画布的 5 轮迭代**：根因是 text 元素自身没有 `maxWidth + overflow:hidden`，祖先 `overflow:hidden` + `contain:strict` 在 `transform: scale` + 宽 `position:absolute` 子孙组合下失效。修法必须在元素自身裁剪，不是叠祖先 overflow。
+- **React 警告「setState during render」**：`commitEdit` 里把 `onUpdate`（父 setState）嵌套在 `setEditingId` 的 updater 回调里会触发警告。用 ref 读 editingId，把 onUpdate 抽出来独立调。
+- **PSD 解析一次性**：修改源 PSD 文件后必须重新上传，`data/local.db` 里的坐标/文字/字体名是解析时固化的。本地开发时 SQLite 文件位置 `data/local.db`（这个笔记顶部说的 Neon Postgres 是线上方案，本地已切到 SQLite via `better-sqlite3`）。
+- **`isTextEdited` 短路条件要覆盖所有字体字段**：导出路由判断"文本有改动"时要包含 `textContent / fontSize / fontColor / fontFamily / fontWeight`，漏掉 fontFamily/fontWeight 会让只切字体的场景走 PSD 预渲染 PNG 分支，修复代码根本不执行。
+
+## 调试口诀
+
+反复修不好（同一 bug ≥ 2 次未解决）立即切诊断模式，不要盲猜：
+
+- **字体问题**：`console.log(GlobalFonts.families)` + `GlobalFonts.has(name)`，看 Skia 实际注册表
+- **布局问题**：目标元素和所有祖先各自的 `getBoundingClientRect` + `clientWidth/Height` + `scrollWidth/Height`，对比 layout box / client box / scroll box 的差异
+- **状态问题**：render 入口 log 当前 state + props，看是不是根本没进到预期分支
+- **事件问题**：关键 event handler 入口 log 参数
+
+诊断日志用完要记得清。
+
+---
+
 ## 进展记录
+
+### 2026-04-22 — T4b 编辑器 MVP 全部收尾 + T7 字体 / T8h 画布两个硬骨头
+
+T4b 所有子任务完成：
+
+- **T8a** 图片替换上传（`components/editor/property-panel.tsx`）— 按比例自动调整 layer 高度，不变形
+- **T8b** 双击文字原地编辑（`InlineTextEditor` in `canvas-stage.tsx`）— wrap="off" + whiteSpace:pre，Enter 插入换行，blur/Esc 退出
+- **T8c1** 元素拖拽（二级选中后鼠标拖，坐标换算除以 scale）
+- **T8c2/T8k/T8k.1** 完整吸附 —— 画布 4 边 + 中线，兄弟元素的 4 边 + 中线；**Figma-style 只对 perpendicular 轴重叠的目标吸附**（顶部 logo 和底部按钮 Y 范围不重叠就不吸附）
+- **T8e** 属性面板按选中状态切换（未选 → 画布尺寸 / 选模块 → 选中模块 X/Y/W/H + 替换删除按钮 / 选元素 → 选中元素 + 文字/填充色/不透明度 / 或 + 图片）
+- **T8f** textarea 长文本横向滚动条修复（JS 动态 scrollWidth → style.width）
+- **T8g** 模块整体拖拽（一级选中后拖，批量平移子层）
+- **T8l** 撤销/重做（editState 快照 + 500ms 防抖自动入栈，Cmd/Ctrl+Z + Shift+Z）
+- 去掉画布浮层「替换/删除」按钮，改到右侧 property-panel「选中模块」section
+
+两个硬骨头：
+
+- **T7 字体导出丢失（4 轮修）**：根因链路是 Skia `matchFamilyStyle` 只按 family 字符串精确匹配，PSD 里 font 名是 PostScript 名（`FZLTDHJW--GB1-0`），前端下拉是自定义 family 名（`MeiTuan`）。中间还有 `isTextEdited` 短路条件漏掉 fontFamily/fontWeight，让修复代码根本没被执行。最终方案：服务端 fontkit 自动扫描所有 .ttf/.otf 的 PostScript 名 register，服务端维护 `FAMILY_WEIGHT_TO_PS` map 把前端 family 名解析成 PS 名。
+- **T8h 画布被长文本推偏（5 轮修）**：试了 outer overflow:hidden / container overflow-auto→hidden / flex→absolute 居中 / flex ancestors min-w-0 min-h-0 / inner position:relative→absolute / contain:strict + overflow:clip，全部失败。最终根因：text 元素**自身**必须加 `maxWidth: cw - x` 和 `overflow: hidden`，`transform: scale()` 祖先 + 宽 `position:absolute` 子孙组合下祖先裁剪不生效。
+
+下一步 T6 组件库（明日），计划见 `~/.claude/plans/delightful-booping-fountain.md` 的初稿（今天临睡前写给自己的 handoff，后来被 Harness 计划覆盖）。
+
+关键决策：
+- 只做 C 方案（后台上传 PSD 选 Group 打标），不做 B（另存为组件）
+- tags 不分类
+- 替换按比例 contain 缩放到目标模块 bbox
+- 替换一次 undo 即回到原模块
+- 替换按钮弹居中 modal
+- 自动下拉下方模块 + 画布延伸（T6.6，可选后置）
 
 ### 2026-04-17 — 首页细节精修
 
