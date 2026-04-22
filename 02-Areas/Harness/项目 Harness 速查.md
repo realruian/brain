@@ -1,10 +1,10 @@
 ---
-tags: [Claude-Code, harness, 速查]
+tags: [harness, 速查, AI-Coding]
 date: 2026-04-18
 ---
 # 新项目 Harness 速查
 
-核心就四句话，剩下按需看 `~/Brain/02-Areas/Claude-Code/Harness 构建指南.md` 和 `~/Brain/02-Areas/Claude-Code/Obsidian 与 Claude-Code 协作.md`。
+核心就四句话，剩下按需看 [[Harness 构建指南]] 和 [[Obsidian 与 Claude-Code 协作]]。
 
 ---
 

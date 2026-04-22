@@ -10,5 +10,5 @@
   "newFileLocation": "current",
   "trashOption": "local",
   "alwaysUpdateLinks": true,
-  "attachmentFolderPath": "00-Inbox"
+  "attachmentFolderPath": "_attachments"
 }
