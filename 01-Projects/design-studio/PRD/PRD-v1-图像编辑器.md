@@ -1,4 +1,10 @@
-# 图像编辑器PRD
+---
+tags: [design-studio, PRD, 图像编辑器, AI设计]
+date: 2026-04-22
+status: 评审中
+version: v1.0
+scope: 图像编辑器模块
+---
 
 # AI 设计编辑器 PRD（评审 & 技术开发版）
 
