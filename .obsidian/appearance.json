@@ -1,5 +1,10 @@
 {
   "accentColor": "",
   "cssTheme": "Minimal",
-  "showViewHeader": true
+  "showViewHeader": true,
+  "nativeMenus": true,
+  "translucency": true,
+  "enabledCssSnippets": [
+    "table-widths"
+  ]
 }

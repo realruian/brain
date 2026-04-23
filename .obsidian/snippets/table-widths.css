@@ -1,0 +1,38 @@
+/* =========================================================
+   table-widths.css
+   Obsidian 表格优化（CJK 友好）
+
+   作用：
+   1. 中文字符不再随意断行（解决"卡片顶栏"被拆成"卡片\n顶栏"）
+   2. 英文 / 代码 / 路径仍可在空格、连字符、路径分隔符处换行
+   3. 给表格留够最小宽度，避免被挤压
+
+   回滚：设置 → 外观 → CSS snippets → 关闭 table-widths 开关
+   或删除本文件即可。
+   ========================================================= */
+
+/* ---- 全局表格：CJK 不随意断字 ---- */
+.markdown-rendered table,
+.markdown-source-view table {
+  word-break: keep-all;
+}
+
+/* ---- 最后一列（通常是"职责/说明/备注"）允许断行 ----
+   否则长英文路径会撑破表格，或塞不下换行的中文描述 */
+.markdown-rendered table td:last-child,
+.markdown-source-view table td:last-child {
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+
+/* ---- 给每列最小宽度，避免挤压 ---- */
+.markdown-rendered table,
+.markdown-source-view table {
+  --table-column-min-width: 6ch;
+}
+
+/* ---- 单元格内边距稍微紧凑一点（可选，不喜欢可删） ---- */
+.markdown-rendered table th,
+.markdown-rendered table td {
+  padding: 6px 10px;
+}
