@@ -4,8 +4,8 @@
   "title": "我如果用 Cursor 怎么做到 harness？ @02-Areas/Claude-Code/",
   "titleGenerationStatus": "pending",
   "createdAt": 1776741093230,
-  "updatedAt": 1776825904610,
-  "lastResponseAt": 1776825904610,
+  "updatedAt": 1776932108319,
+  "lastResponseAt": 1776932108319,
   "sessionId": "520ae5a7-5e25-4501-9ada-14286086ad1a",
   "providerState": {
     "providerSessionId": "520ae5a7-5e25-4501-9ada-14286086ad1a"
@@ -13,11 +13,11 @@
   "usage": {
     "model": "opus",
     "inputTokens": 1,
-    "cacheCreationInputTokens": 286,
-    "cacheReadInputTokens": 118850,
-    "contextWindow": 200000,
-    "contextTokens": 119137,
-    "percentage": 60,
+    "cacheCreationInputTokens": 1614,
+    "cacheReadInputTokens": 142927,
+    "contextWindow": 1000000,
+    "contextTokens": 144542,
+    "percentage": 14,
     "contextWindowIsAuthoritative": true
   }
 }
