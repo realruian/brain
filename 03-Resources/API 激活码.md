@@ -1,22 +1,143 @@
 ---
-tags:
-  - 凭据
+tags: [凭据]
 date: 2026-04-16
+updated: 2026-04-24
+---
+> 📌 用法
+> - `Cmd+F` 搜服务名 / 邮箱
+> - 反引号包的值在 Reading 模式点一下复制
+> - 新增条目复制最底部模板
+> - 同密码多次出现是有意的（懒得改），保持现状
+
 ---
 
-| 服务          | 类型  | 值                                      |
-| ----------- | --- | -------------------------------------- |
-| Vibe Island | 激活码 | `1BAF49B0-4688-4AB8-AC25-798A9E511CA9` |
-| Supabase    | 密码  | `IvhA4bBXZS9PXN2Z`                     |
+## 🆔 政务 / 实名
 
+| 项目 | 值 |
+|---|---|
+| 学位证号 | `110551202105003501` |
+| 个税密码 | `Aa122323！` |
+| 电子社保密码 | `846800` |
 
-Claude账号/邮箱：CuteNiceGuyelk@atheist.com
-密码：GGsdf67quBz
-接码令牌：9c6deee57e634dddae88408b02a91378
-Claude Sk：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
+## 🚄 12306
 
+| 字段 | 值 |
+|---|---|
+| 账号 | `tianruian12306` |
+| 密码 | `aa122323` |
 
-登录流程：https://www.yuque.com/zelcsyyd1/ezr737/zgkb4c2l1x2y6xp5?singleDoc# 《具体登录图解》
+---
 
-Claude官网登录网址：Claude.ai
-邮箱登录地址：mail.com
+## 🍎 Apple ID
+
+| 区 | 账号 | 密码 |
+|---|---|---|
+| 美区 主 | `realruian@163.com` | `Aa122323` |
+| 美区 备 | `realruian@outlook.com` | `Aa122323` |
+| 港区 | `mpwj8360087luxion@163.com` | `Aa211233` |
+
+## 📧 邮箱
+
+| 邮箱 | 备注 |
+|---|---|
+| `realruian@gmail.com` | 主邮箱 |
+| `1258504463@qq.com` | QQ |
+| `tra0108@163.com` | — |
+| `leovonni.anderson@sjsu.edu` | SJSU 学校邮箱 |
+| `CuteNiceGuyelk@atheist.com` | Claude 用 |
+
+---
+
+## 🏢 公司 / 工作
+
+| 服务 | 账号 | 密码 |
+|---|---|---|
+| 大象（美团） | — | `Aa122323！` |
+| 文枢 | — | `15210910574122323` |
+| 美团 Adebe | — | `Aa122323!` |
+| 阿里内网 邮箱 | `tra01896256@alibaba-inc.com` | `Aa122323` |
+| 阿里内网 工号 | `tra01896256` | `Aa122323` |
+
+## 🎓 学校 — SJSU（圣何塞州立）
+
+| 字段 | 值 |
+|---|---|
+| 邮箱 | `leovonni.anderson@sjsu.edu` |
+| 学号 | `019606639` |
+| 密码 | `TIANtian123321456` |
+
+---
+
+## 🎨 设计工具
+
+| 服务 | 账号 | 密码 |
+|---|---|---|
+| Figma | — | `Aa122323!` |
+| Sketch | `realruian@gmail.com` / `tianruian` | `Aa122323#` |
+| Eagle | — | `SSPAI-3E9B-5E3L-9A5F-E9E5` |
+| Maxon | `1258504463@qq.com` | `Aa211233，` |
+| OCTANE | `tianruian` | `aa122323` |
+
+## 💻 开发 / API
+
+| 服务          | 账号                           | 密码 / Key                                                                                                                              |
+| ----------- | ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| GitHub      | `realruian@gmail.com`        | `gitAa122323`                                                                                                                         |
+| Claude 账号   | `CuteNiceGuyelk@atheist.com` | `GGsdf67quBz`                                                                                                                         |
+| Claude SK   | —                            | `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` |
+| Kimi API    | —                            | `sk-fvc0McdyG4tOX2rmvSGBBf9HsSaTeAFb7m46v1CMhf78hHQw`                                                                                 |
+| Huggingface | `realruian@gmail.com`        | `Aa122323,`                                                                                                                           |
+| Supabase    | —                            | `IvhA4bBXZS9PXN2Z`                                                                                                                    |
+| WildCard    | `17260219356`                | `aa122323122323`                                                                                                                      |
+| Pockyt Shop | `realruian@gmail.com`        | `Aa12232300@`                                                                                                                         |
+
+**Claude 相关备注**：接码令牌 `9c6deee57e634dddae88408b02a91378` · [登录图解](https://www.yuque.com/zelcsyyd1/ezr737/zgkb4c2l1x2y6xp5?singleDoc#)
+
+---
+
+## 🎮 游戏 / 娱乐
+
+| 服务 | 账号 | 密码 |
+|---|---|---|
+| Steam | `tianruian` | `aa122323` |
+| EA | `realruian@gmail.com` | `Aa122323` |
+| Discord | `realruian@gmail.com` | `Aa122323g` |
+
+## 🐦 社交
+
+| 账号 | 密码 | 邮箱 | 备注 |
+|---|---|---|---|
+| 推特 `@realruian` | `aa122323` | `1258504463@qq.com` | 主号 |
+| 推特 `@kittoabc` | `aa122323` | `realruian@gmail.com` | NSFW |
+
+---
+
+## 🔌 其他 / 激活码
+
+| 项目              | 值                                      |
+| --------------- | -------------------------------------- |
+| Logi            | `aa122323logi`                         |
+| win 文书          | `123456`                               |
+| Vibe Island 激活码 | `1BAF49B0-4688-4AB8-AC25-798A9E511CA9` |
+
+---
+
+## 📋 模板（新增条目复制粘贴）
+
+**单服务一行**：
+
+```markdown
+| 服务名 | `账号` | `密码` |
+```
+
+**多字段服务**（如学校、有邮箱+工号+密码三字段）：
+
+```markdown
+### {服务名}
+
+| 字段 | 值 |
+|---|---|
+| 邮箱 | `xxx` |
+| 账号 | `xxx` |
+| 密码 | `xxx` |
+```
