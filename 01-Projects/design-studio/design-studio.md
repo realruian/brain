@@ -118,6 +118,64 @@ date: 2026-04-14
 
 ## 进展记录
 
+### 2026-04-28 — 字号规范 / 弹窗整顿 / 文字 ink-box 对齐 / AI 图像编辑（feat/ai-image-edit 分支）
+
+跨度比较大的一天，分四块。
+
+**字体方面**：
+
+- 修了一个 UL 字重错归 400 的隐 bug —— normalizeWeight 没识别"UL"（方正 UltraLight 简写），走 OS/2 fallback 撞 usWeightClass=400，把 FZLTCXHJW (UL) 顶到了"常规"桶，让真正的 R-GB（FZLTHJW）被去重丢弃。视觉表现：方正兰亭黑 S 下拉里"细"和"常规"看起来反了。补 `\bUL\b` 到 100 桶解决。
+- 顺手做了 `GET /api/admin/diagnose-font?key=<aggKey>` 诊断接口，列出聚合 key 下所有 face 的 PS 名 / family / subfamily / OS/2 weight / 归类结果。后续字体问题先跑这个看。
+
+**UI 设计语言整顿**：
+
+- **字号规范**：项目里 12 / 13 / 14 / 15 / 16 / 20 全混用，定下 4-base + **14 作正文锚点**。全局把 `text-[12px]` → `text-[14px]`（35 处，sed 批量），`text-[13px]` `text-[15px]`（仅 ConfirmDialog 用了）→ 14/16。最终只剩 14 / 16 / 20 三档。
+- **弹窗设计语言**统一：左对齐标题（20px medium）+ 右上 X（size-8）+ 右下按钮（取消 `bg-[#F7F8FA] text-[#7C889C]` 浅灰，确认 `bg-[#11192D]` 深色填充，danger 用 `#E5322D`）。改造了 ConfirmDialog（从 Apple HIG 居中风格）、ExtendModal（删频道 tag、删全选按钮、宽度 1000→720）、ExportModal（重写：480 宽 + 选项卡左侧加图标 + spinner loading 反馈 + PNG 格式副文）。
+- **左侧 SlotPanel 整体重构**："会场" tab 改"会场组件"，下划线固定 32px 居中（同首页 SceneTabBar），删刷新按钮，section 横向用 `mx-5` 跟右侧 PropertyPanel + 顶栏面包屑统一对齐到 20px。卡片去 bg-grey-* 默认底色 + p-2，改 hover 阴影 `hover:shadow-[0_4px_10px_rgba(17,25,45,0.1)]`，圆角 4px。Tab 栏到首条卡片永久 24px 间距（`mt-6` + `[&>section:first-child]:pt-0`）。
+- 右侧 PropertyPanel section 横向 `mx-3` → `mx-5`，跟左侧对齐。
+
+**文字渲染 ink-box 对齐**（两端都修）：
+
+字体归一化迁移让 FZLT 真正加载后，文字普遍向下偏 8-15px。两端各有自己的"经验偏移"：客户端 CSS 把 layer.y 当 line-box 顶 → glyph 渲染在 line-box 中下半段；服务端 `renderTextToPng` 写死 `topPad = fontSize × 0.2`。之前 PingFang fallback 时偏差小看不出，FZLT 加载后暴露。
+
+公式（两端共用）：
+```
+inkTopOffset = (lineHeight + fontBoundingBoxAscent − fontBoundingBoxDescent) / 2 − actualBoundingBoxAscent
+```
+
+- 客户端 `canvas-stage.tsx`：模块级 `measureInkTopOffset(font, lineHeight, text)` 工具，文字 baseStyle 里 `top: y - inkTopOffset`
+- 服务端 `lib/render-psd-to-png.ts`：删 topPad 经验值，`textBaseline` 从 `"top"` → `"alphabetic"`，第 1 行 baseline = `abA` 让 ink 顶在 sub-canvas y=0。canvasH 精确按 `(N-1) × lineH + abA + abD` 算，不再用 fontSize × 0.2 安全垫。
+
+**踩坑**：选中框 useLayoutEffect 已经在用 measureText 做同款计算，文字本身上移后 DOM rect 跟着上移，selection top 计算自动正确（`top = (y - inkTopOffset) × scale + inkTopOffset × scale = y × scale`），无需改。
+
+附加修一个：**多行文字 white-space**。`isMultiLine` 分支之前用 `width: w + pre-wrap`，CSS 在 width 不够时强制 wrap。但服务端是按行直绘 + 画布按内容扩宽。撞到 W=352 / fontSize=90 / "半价周末" 实测 ~360 这种 case 时，编辑器多 wrap 一行，下载图正常。改成 **展示态 `width: undefined` + `white-space: pre`**（保留 \n 但不按 width 自动 wrap），编辑态保留 `width: w + pre-wrap`（textarea 输入需要稳定盒）。
+
+**AI 图像编辑功能**（`feat/ai-image-edit` 分支）：
+
+接同事 `~/dev/meituan/poster-text-editor` 的 AI 编辑能力。同事用 FastAPI + 美团 Friday 网关（gemini-3.1-flash-image-preview）。决策：
+
+- **方案 B：TS 重写核心逻辑到我们 Next.js**，不依赖同事服务在不在线。Friday 协议是异步任务 + 5s 间隔轮询，超时 300s。代码 `lib/friday-client.ts`（~150 行）。
+- **生成图永远转存到自有 blob** `data/blob/ai-edits/`，不依赖 Friday 临时 URL。代码 `app/api/ai-edit/route.ts`：拉原图 → 调 Friday → 转存到 blob → 返回自有 URL。`lib/blob-media.ts` 白名单要加 `"ai-edits/"`（漏了第一次报"路径名不允许"）。
+- 弹窗 `components/editor/ai-edit-modal.tsx`（720 宽，跟新设计语言一致）：预览 + 历史 strip（最近 10 个，仅会话内）+ 8 个 prompt 模板 + 错误兜底。条件渲染 `{aiOpen && <AiEditModal />}`，关闭即卸载，状态自动 reset。
+- ImageField 加 `[AI 修改]` 黑色按钮，icon 用 `/public/icons/aigen.svg`（设计提供）+ CSS `[filter:brightness(0)_invert(1)]` 涂白。SVG 原 viewBox 40×40 但可见内容只占中间 ~28×28，改 viewBox 到 `"5 6 30 30"` 让 icon 视觉变大。
+
+API key 用同事的（`FRIDAY_APP_ID=204506...`）放 `.env.local`（gitignored），后续要自己申请 Friday 应用 ID。
+
+**关键文件**：
+- `lib/friday-client.ts` — Friday 网关 TS 客户端（submit + poll + 三种返回格式解析）
+- `lib/font-resolver.ts`、`lib/font-aggregation.ts` — 字体归一化（之前的）
+- `.env.local` — `FRIDAY_APP_ID` / `FRIDAY_BASE_URL=https://aigc.sankuai.com/v1` / `FRIDAY_IMAGE_EDIT_MODEL=gemini-3.1-flash-image-preview`
+- 分支 `feat/ai-image-edit` 上 5 个 commit，main 完全没动
+
+**踩坑教训**：
+- Next.js 16 + Turbopack dev server 在 long-running route handler（30s+ AI 等待）完成后**会进程退出**。后台启动用 `nohup ... & disown` 才稳；但在我（claude）的 Bash 工具里启动仍然会被父 shell 终止信号殃及。结论：长开发会话**自己开终端跑 dev server**，别让 AI 启。
+- ESLint 新规则 "Calling setState synchronously within an effect can trigger cascading renders"。原来用 `useEffect(() => { if (!open) reset(); }, [open])` 清空状态会触发。改用条件渲染 `{open && <Modal/>}` 让组件 mount/unmount 自动管理状态。
+- aigen.svg 这种"把图标做在 40×40 容器留 padding"的设计稿，直接当 icon 用会显得超小。修 viewBox 裁掉透明边比改 className size 更通用（所有调用处都受益）。
+
+**下一步**：feat/ai-image-edit 分支待 merge 回 main。Friday key 申请自有应用 ID。AI 修改的 region 选区（B 模式）二期再做。
+
+---
+
 ### 2026-04-22 — T4b 编辑器 MVP 全部收尾 + T7 字体 / T8h 画布两个硬骨头
 
 T4b 所有子任务完成：
