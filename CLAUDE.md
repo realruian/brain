@@ -10,6 +10,7 @@
 - `04-Archive/` — 已归档内容
 - `05-Daily/` — 每日笔记
 - `06-Writer/` — 写作产出（草稿 / 已发布 / 选题池）
+- `Clippings/` — 网页/外部内容剪藏（Web Clipper 等工具产出，不强制 frontmatter）
 
 ## 规则
 
