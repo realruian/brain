@@ -15,7 +15,7 @@
 
 - 所有笔记使用中文
 - 新建笔记默认放入 `00-Inbox/`，除非明确指定位置
-- 笔记使用 Markdown 格式，文件名用中文简短描述
+- 笔记使用 Markdown 格式，文件名用简短描述（中文优先；代码项目代号、专有名词可用英文）
 - 每个笔记顶部加 YAML frontmatter，至少包含 tags 和 date
 - 不要修改 `.obsidian/` 目录下的任何文件
 - 创建或删除笔记后，不需要更新索引
@@ -26,7 +26,7 @@
 - Gundam-head-FN — 美食头图海报生成器，OpenClaw Skill 交付（代码仓库: ~/dev/meituan/Gundam-head-FN）
 - Vibe Voice — macOS Electron 语音笔记 app（代码仓库: ~/dev/personal/vibe-voice）
 - Personal Website — tianruian.com 个人站 + 发布面板，灵感参考 dany.works（代码仓库: ~/Dev/Personal-website · GitHub: realruian/personal-os private）
-- 营销资源位自动生成器 — 外卖运营营销图片生成工具（HTML + Playwright + Pillow），支持运营卡片 / 固定位 Banner / 会场头图 / 洛阳牡丹头图
+- Banner Generator Skill — 营销资源位自动生成器，外卖运营营销图片生成工具（HTML + Playwright + Pillow），支持运营卡片 / 固定位 Banner / 会场头图 / 洛阳牡丹头图
 - Lollipop — AI 模拟面试平台，协作项目（代码仓库: ~/Dev/lollipop · GitHub: PLA-yi/Lollipop）
 
 ## 关于我
