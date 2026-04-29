@@ -6,5 +6,6 @@
   "translucency": true,
   "enabledCssSnippets": [
     "table-widths"
-  ]
+  ],
+  "baseFontSize": 23
 }
