@@ -14,3 +14,6 @@
   - 岗位卡片网格 + 分页
   - PersonalPanel（我的 JD 视图）
   - 上传 JD 模态、JD 详情模态
+
+
+什么是非 floating 右描边，还有非 floating 状态吗？
