@@ -56,3 +56,7 @@ Pillow 色彩修正（macOS P3→sRGB）+ PNG 压缩（≤150KB）
 - **PNG 压缩有上限**：量化到 256 色后仍超 150KB 时只打印警告，不做进一步处理
 - **Chromium 依赖**：首次使用需下载 Chromium（~200MB），离线环境不可用
 - **色彩修正依赖系统 ICC**：macOS 的 P3→sRGB 转换依赖 `/System/Library/ColorSync/Profiles/Display P3.icc`，该文件缺失时静默跳过
+
+
+使用案例
+处罚

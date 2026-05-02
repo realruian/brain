@@ -2,7 +2,6 @@
 tags: [项目, 美团, 海报生成, Pillow, Gemini, OpenClaw]
 date: 2026-04-15
 ---
-
 # Gundam-head-FN
 
 美食头图海报生成器 — 输入标题和场景（或业务 JSON），自动合成 750×450 营销头图 PNG。支持 AI 换菜品。已作为 OpenClaw Skill 交付业务方。
