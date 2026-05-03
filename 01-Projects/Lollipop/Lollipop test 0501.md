@@ -11,5 +11,7 @@
   - 岗位卡片
 
 # 我的简历
-![[Pasted image 20260503162508.png]]
+![[Pasted image 20260503164129.png]]
+![[Pasted image 20260503164155.png]]
+![[Pasted image 20260503162508.png|697]]
 
