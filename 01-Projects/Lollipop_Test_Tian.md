@@ -41,3 +41,4 @@ Lollipop 主仓的前端实验分支，仅改 frontend，后端共享主仓。
 ## 进展记录
 
 - 2026-05-02：完成简历页（`/resume/edit`）大改：5 卡片化 + Hero 卡 + 个人优势独立 + 双态 prose 排版 + 【tag】高亮 + 卡片级独立编辑（工作 / 项目 entry 级）+ 表单组件 12px 统一 + 左右间距对称 40px。Harness 三步仪式同日完成。
+- 2026-05-04：AI 简历面板交互重做（chip / 输入态合并）+ 多页视觉 sweep + 移除 MiSans 改系统字体栈 + 面试间 loading 屏重做（白底 4 步 stepper）。
