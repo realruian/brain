@@ -42,3 +42,4 @@ Lollipop 主仓的前端实验分支，仅改 frontend，后端共享主仓。
 - 2026-05-02：完成简历页（`/resume/edit`）大改：5 卡片化 + Hero 卡 + 个人优势独立 + 双态 prose 排版 + 【tag】高亮 + 卡片级独立编辑（工作 / 项目 entry 级）+ 表单组件 12px 统一 + 左右间距对称 40px。Harness 三步仪式同日完成。
 - 2026-05-04：AI 简历面板交互重做（chip / 输入态合并）+ 多页视觉 sweep + 移除 MiSans 改系统字体栈 + 面试间 loading 屏重做（白底 4 步 stepper）。
 - 2026-05-08：面试链路体验收口（unmount pause / 离开拦截 modal / capture path guard）+ /jobs 实习筛选跳动 fix（skeleton 占位）+ /history 接入右栏 stats card + /report 返回主页 push→replace + AI 历史切换闪标题修（MessageStream empty state 文案与 jobs 主页撞）。43 commit push 到 origin/tianruian，PR 待提交。
+- 2026-05-09：DESIGN.md 大体检——调研 6 家大厂 + W3C DTCG / Keep a Changelog / WCAG 2.2，出 20 条诊断（3 必改 / 8 应改 / 9 顺手）。文档未动，明天改：① 拆 changelog 出去 ② 加 Accessibility 章节 + 还原 focus 态 ③ rename --lp-brand-blue → --lp-accent。顺手：简历 AI 侧栏字段 chip + 管理后台账号 admin@lollipop.ai。详见 `~/Brain/05-Daily/2026-05-09.md`。
