@@ -30,7 +30,6 @@
 - Banner Generator Skill — 营销资源位自动生成器，外卖运营营销图片生成工具（HTML + Playwright + Pillow），支持运营卡片 / 固定位 Banner / 会场头图 / 洛阳牡丹头图
 - Lollipop — AI 模拟面试平台，协作项目（代码仓库: ~/Dev/lollipop · GitHub: PLA-yi/Lollipop）
 - Lollipop（Tian 前端分支） — Lollipop 主仓的前端实验分支，仅改 frontend，后端共享主仓（代码仓库: ~/Dev/Lollipop_Test_Tian）
-- Vibepin — macOS 菜单栏截图 + Pin to Screen + 录屏 app，lzhgus/Capso fork rebrand（代码仓库: ~/Dev/vibepin-app · GitHub: realruian/vibepin-app private）
 
 ## 关于我
 
