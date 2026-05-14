@@ -10,13 +10,11 @@ date: 2026-05-14
 
 基础研发平台《Web前端项目编码规范》
 
-​
-
 正文 2761 字（3.5 页）
 
 注释 9 字（1 个）
 
-浏览 2657 次（971 人）
+浏览 2659 次（971 人）
 
 全部
 
@@ -117,133 +115,136 @@ date: 2026-05-14
 - **编码：**本规范特指编写应用程序源代码。
 
 - **命名法：**命名文件、类、方法、常量、变量等标识符的方法。本文涉及的命名法如下表（表 1：文件命名法列表）所示。
-*表 1：文件命名法列表*
-命名法
-要求
-举例
-连字符命名法
-只能包含英文小写字母（a-z）、连字符（-）和数字（0-9）。禁止首位字符出现数字。单词间以连字符分隔。
-user-profile、nav-bar
-驼峰命名法
-只能包含英文大小写字母（A-Za-z）和数字（0-9）。禁止首位字符出现数字。单词间没有分隔字符。第一个单词的首字母可采用小写。从第二个单词开始，每个单词的首字母采用大写。
-小驼峰：firstName、userProfile
-大驼峰：FirstName、UserProfile
-帕斯卡命名法
-只能包含英文大小写字母（A-Za-z）和数字（0-9）。禁止首位字符出现数字。单词间没有分隔字符。每个单词的首字母采用大写字母。
-Car、LinkedList
-蛇形命名法
-只能包含英文小写字母（a-z）、下划线（_）和数字（0-9）。禁止首位字符出现数字。单词间以下划线分隔。
-first_name、user_profile
-宏命名法
-只能包含英文大写字母（A-Z）、下划线（_）和数字（0-9）。禁止首位字符出现数字。单词间以下划线分隔。
-MAX_SIZE
+
+   *表 1：文件命名法列表*
+
+   命名法
+   要求
+   举例
+   连字符命名法
+   只能包含英文小写字母（a-z）、连字符（-）和数字（0-9）。禁止首位字符出现数字。单词间以连字符分隔。
+   user-profile、nav-bar
+   驼峰命名法
+   只能包含英文大小写字母（A-Za-z）和数字（0-9）。禁止首位字符出现数字。单词间没有分隔字符。第一个单词的首字母可采用小写。从第二个单词开始，每个单词的首字母采用大写。
+   小驼峰：firstName、userProfile
+   大驼峰：FirstName、UserProfile
+   帕斯卡命名法
+   只能包含英文大小写字母（A-Za-z）和数字（0-9）。禁止首位字符出现数字。单词间没有分隔字符。每个单词的首字母采用大写字母。
+   Car、LinkedList
+   蛇形命名法
+   只能包含英文小写字母（a-z）、下划线（_）和数字（0-9）。禁止首位字符出现数字。单词间以下划线分隔。
+   first_name、user_profile
+   宏命名法
+   只能包含英文大写字母（A-Z）、下划线（_）和数字（0-9）。禁止首位字符出现数字。单词间以下划线分隔。
+   MAX_SIZE
 
 ### 四、文件、目录和包规范
 
 #### 4.1 命名
 
-1. ​强制必须从下面几种方式中选择一种作为文件和目录命名的方式：
-如果文件中只有一个类，则采用帕斯卡命名法（详见表 1：文件命名法列表）。
+1. 强制必须从下面几种方式中选择一种作为文件和目录命名的方式：
 
-TypeScript
+   - 如果文件中只有一个类，则采用帕斯卡命名法（详见表 1：文件命名法列表）。
+   
+      ```typescript
+      // 文件 Car.ts
+      export default class Car {}
+      ```
+   
+   - UI 组件目录和对应的文件，采用帕斯卡命名法（详见表 1：文件命名法列表）。
+   
+      ```typescript
+      Toast // 目录名
+         ├── index.scss
+         └── index.tsx
+      ```
+   
+   - 如果文件中只有唯一类的实例、类型、函数等情况，则文件跟导出的变量、类型、函数同名。
+   
+      ```typescript
+      // 文件 stopWatch.ts
+      class StopWatch{}
+      export const stopWatch  = new StopWatch();
+      // Enum 类型 TabStatus.ts
+      export default enum TabStatus {
+          UNINITIALIZED,
+          LOADING,
+          LOADED,
+          SHOWN,
+          HIDDEN,
+          ERROR = -1
+      ```
+   
+   - 除以上三种情况，文件和目录均使用连字符命名法（详见表 1：文件命名法列表）。
 
-xxxxxxxxxx
+   **落地方式：CodeReview**
 
- 
-// 文件 Car.tsexport default class Car {}
+2. 建议目录命名遵循简洁原则，有习惯性缩写的单词采用容易理解的缩写。如：源代码目录使用src，不使用source。下面是更多例子：
 
-UI 组件目录和对应的文件，采用帕斯卡命名法（详见表 1：文件命名法列表）。
+   目录名
+   说明
+   img
+   图片。 不使用image、images、imgs等。
+   js
+   javascript脚本。 不使用script、scripts等。
+   css
+   样式表。 不使用style、styles等。
+   deps
+   引入的第三方依赖包目录。
+   docs
+   文档目录。
+   typings
+   TypeScript类型目录。
+   __tests__
+   测试用例目录。
+   components
+   通用组件、或纯组件，跟业务绑定浅。
+   utils
+   通用的工具函数，建议一个项目保留一个utils目录，保证纯函数实现都在一处，避免重复。
+   helpers
+   业务逻辑抽象，与utils的区别是 ❶ utils 面向整个项目，helpers 面向具体业务；❷ 一个项目原则上只有一个 utils，但 helpers 目录会散落在业务模块中。
+   views
+   view相关组件/页面。
+   pages
+   页面相关的目录。
+   modules
+   具体业务模块组件，一般跟 Stores、React Context 耦合。
 
-TypeScript
+   **落地方式：CodeReview**
 
-xxxxxxxxxx
+3. 建议文件名中不应重复目录名。
 
- 
-Toast // 目录名   ├── index.scss   └── index.tsx
+   ```plain text
+   api
+     └── api-log.js // 文件名中有了api
+   ```
 
-如果文件中只有唯一类的实例、类型、函数等情况，则文件跟导出的变量、类型、函数同名。
-
-TypeScript
-
-xxxxxxxxxx
-
- 
-// 文件 stopWatch.tsclass StopWatch{}export const stopWatch  = new StopWatch();// Enum 类型 TabStatus.tsexport default enum TabStatus {    UNINITIALIZED,    LOADING,    LOADED,    SHOWN,    HIDDEN,    ERROR = -1
-
-除以上三种情况，文件和目录均使用连字符命名法（详见表 1：文件命名法列表）。
-**落地方式：CodeReview**
-
-2. ​建议目录命名遵循简洁原则，有习惯性缩写的单词采用容易理解的缩写。如：源代码目录使用src，不使用source。下面是更多例子：
-目录名
-说明
-img
-图片。 不使用image、images、imgs等。
-js
-javascript脚本。 不使用script、scripts等。
-css
-样式表。 不使用style、styles等。
-deps
-引入的第三方依赖包目录。
-docs
-文档目录。
-typings
-TypeScript类型目录。
-__tests__
-测试用例目录。
-components
-通用组件、或纯组件，跟业务绑定浅。
-utils
-通用的工具函数，​建议一个项目保留一个utils目录，保证纯函数实现都在一处，避免重复。
-helpers
-业务逻辑抽象，与utils的区别是 ❶ utils 面向整个项目，helpers 面向具体业务；❷ 一个项目原则上只有一个 utils，但 helpers 目录会散落在业务模块中。
-views
-view相关组件/页面。
-pages
-页面相关的目录。
-modules
-具体业务模块组件，一般跟 Stores、React Context 耦合。
-
-**落地方式：CodeReview**
-
-3. ​建议文件名中不应重复目录名。
-
-Plain Text
-
-xxxxxxxxxx
-
- 
-api  └── api-log.js // 文件名中有了api
-
-Plain Text
-
-xxxxxxxxxx
-
- 
-api  └── log.js
+   ```plain text
+   api
+     └── log.js
+   ```
 
 **落地方式：CodeReview**
 
 #### 4.2 文件
 
-1.​强制文件使用无 BOM 的 UTF-8 编码。
+1.强制文件使用无 BOM 的 UTF-8 编码。
 
 说明：UTF-8 编码具有更广泛的适应性。BOM 在使用程序或工具处理文件时可能造成不必要的干扰。
 
 **落地方式：CodeReview**
 
-2.​建议在文件结尾处，保留一个空行。
+2.建议在文件结尾处，保留一个空行。
 
 **落地方式：CodeReview**
 
 #### 4.3 目录
 
-1.​强制同一目录下禁止拥有同名的 .js/.ts 和 .jsx/.tsx文件。
+1.强制同一目录下禁止拥有同名的 .js/.ts 和 .jsx/.tsx文件。
 
 说明：在使用模块导入时，倾向于不添加后缀，如果存在同名但不同后缀的文件，构建工具将无法决定哪一个是需要引入的模块。
 
-TypeScript
-
-```
+```typescript
 ├── Demo
    ├── index.js // 同时存在同名的 index.js和index.ts
    └── index.ts
@@ -251,18 +252,17 @@ TypeScript
 
 **落地方式：CodeReview**
 
-2. ​强制目录下禁止同时存在目录与js/jsx/ts/tsx文件同名的情况
+2. 强制目录下禁止同时存在目录与js/jsx/ts/tsx文件同名的情况
 
 说明：如果同时存在目录与js/ts等文件同名的情况，那么在导入时可能不清楚应该导入哪个文件，导致混淆。可能会引起构建工具的兼容性问题。
 
-TypeScript
-
-```
+```typescript
 ├── badcase
    ├── Demo.ts // 同时存在 Demo.ts Demo.tsx和 Demo 目录
    ├── Demo.tsx 
    └── Demo
       └── index.ts
+
 // 这种情况下需要避免重名，如果Demo和Demo/index.ts同时存在则需要精确的引入
 import Demo from './Demo/index.ts'
 ```
@@ -271,12 +271,15 @@ import Demo from './Demo/index.ts'
 
 #### 4.4 包
 
-1. ​强制NPM包项目，源码必须使用ES Module（ESM）语法，即 import / export
-**落地方式：CodeReview**
+1. 强制NPM包项目，源码必须使用ES Module（ESM）语法，即 import / export
 
-2. ​建议组件、库等作为三方对外提供的NPM包建议采用ESM发布
-说明：ESM是现代JavaScript的官方标准模块系统，它提供了更好的静态分析能力和模块化管理，有利于应用方进行按需打包和更好的tree-shaking。
-**落地方式：CodeReview**
+   **落地方式：CodeReview**
+
+2. 建议组件、库等作为三方对外提供的NPM包建议采用ESM发布
+
+   说明：ESM是现代JavaScript的官方标准模块系统，它提供了更好的静态分析能力和模块化管理，有利于应用方进行按需打包和更好的tree-shaking。
+
+   **落地方式：CodeReview**
 
 ### 五、编码风格
 
@@ -284,7 +287,7 @@ import Demo from './Demo/index.ts'
 
 ### 六、语言规范
 
-​建议建议新项目采用TypeScript编码，具体语言规范详见：
+建议建议新项目采用TypeScript编码，具体语言规范详见：
 
 - [JavaScript 编码规范](https://km.sankuai.com/collabpage/2440821513)
 
@@ -304,17 +307,17 @@ import Demo from './Demo/index.ts'
 
 > 对应规范的ESLint工具和PR卡控流程还在开发中，请关注后续更新。
 
-1. ​强制项目必须引入 ESLint 工具检查代码是否合规，并配置 ESLint 的检查规则以匹配本规范关于语言和框架的要求。
+1. 强制项目必须引入 ESLint 工具检查代码是否合规，并配置 ESLint 的检查规则以匹配本规范关于语言和框架的要求。
 
-2. ​强制如果检查时项目代码完全符合本规范的​强制要求，则检查通过，否则检查不通过。
+2. 强制如果检查时项目代码完全符合本规范的强制要求，则检查通过，否则检查不通过。
 
-3. ​强制代码检查如果失败，则必须产出报告，其中能够明确指出违反的规范（或检查规则）和违规代码行列，
+3. 强制代码检查如果失败，则必须产出报告，其中能够明确指出违反的规范（或检查规则）和违规代码行列，
 
-4. ​强制项目仓库的配置中必须添加代码合规[1]的 Pull Reqeust 检查项。
+4. 强制项目仓库的配置中必须添加代码合规[1]的 Pull Reqeust 检查项。
 
-5. ​强制如果 Pull Reqeust 检查项的代码合规检查失败则禁止当前 Pull Request 合入。
+5. 强制如果 Pull Reqeust 检查项的代码合规检查失败则禁止当前 Pull Request 合入。
 
-6. ​建议Pull Reqeust 检查项中执行的代码合规检查可仅覆盖代码变更部分。
+6. 建议Pull Reqeust 检查项中执行的代码合规检查可仅覆盖代码变更部分。
 
 ### 十、附则
 
@@ -329,23 +332,3 @@ import Demo from './Demo/index.ts'
 注释：
 
 代码合规：ESLint检测工具
-
-5人赞赏
-
-👏
-
-+1
-
-引用文档
-
-- [编码风格](https://km.sankuai.com/collabpage/2440792266)
-
-- [JavaScript 编码规范](https://km.sankuai.com/collabpage/2440821513)
-
-- [TypeScript 编码规范](https://km.sankuai.com/collabpage/2440850860)
-
-- [React 框架编码规范](https://km.sankuai.com/collabpage/2440656938)
-
-- [Vue 框架编码规范](https://km.sankuai.com/collabpage/2440782484)
-
-- [单元测试规范](https://km.sankuai.com/collabpage/2440705635)
