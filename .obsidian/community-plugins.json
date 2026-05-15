@@ -4,5 +4,6 @@
   "obsidian-git",
   "templater-obsidian",
   "table-editor-obsidian",
-  "sheets"
+  "sheets",
+  "dragger"
 ]

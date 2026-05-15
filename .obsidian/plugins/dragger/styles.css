@@ -1,0 +1,455 @@
+/* Dragger 插件样式 */
+
+.dnd-hidden {
+    display: none !important;
+}
+
+/* 拖拽手柄 - 完全悬浮定位，不影响文档布局 */
+.dnd-drag-handle {
+    position: absolute;
+    left: -16px;
+    top: 0;
+    transform: none;
+    width: var(--dnd-handle-size, 16px);
+    height: var(--dnd-handle-size, 16px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: grab;
+    opacity: 0;
+    transition: none;
+    color: var(--dnd-handle-color, var(--interactive-accent));
+    border-radius: 999px;
+    z-index: 3;
+}
+
+.markdown-source-view.mod-cm6 .cm-editor.dnd-root-editor .cm-gutters {
+    overflow: visible;
+}
+
+/* 仅在 before/after 里只有 handle gutter 时，清除 file-folding 偏移带来的占位 */
+.markdown-source-view.mod-cm6 .cm-editor.dnd-root-editor .cm-gutters.cm-gutters-before:has(> .cm-gutter.cm-dnd-handle-gutter:only-child),
+.markdown-source-view.mod-cm6 .cm-editor.dnd-root-editor .cm-gutters.cm-gutters-after:has(> .cm-gutter.cm-dnd-handle-gutter:only-child) {
+    width: 0 !important;
+    min-width: 0 !important;
+    max-width: 0 !important;
+    flex-basis: 0 !important;
+    flex-grow: 0 !important;
+    flex-shrink: 0 !important;
+    border-right-width: 0 !important;
+    border-left-width: 0 !important;
+    margin-inline-start: 0 !important;
+    margin-inline-end: 0 !important;
+}
+
+/* 仅 handle gutter 归零，不影响 before 中其它 gutter（例如行号） */
+.markdown-source-view.mod-cm6 .cm-editor.dnd-root-editor .cm-gutters.cm-gutters-before > .cm-gutter.cm-dnd-handle-gutter,
+.markdown-source-view.mod-cm6 .cm-editor.dnd-root-editor .cm-gutters.cm-gutters-after > .cm-gutter.cm-dnd-handle-gutter {
+    position: relative;
+    width: 0 !important;
+    min-width: 0 !important;
+    max-width: 0 !important;
+    flex-basis: 0 !important;
+    flex-grow: 0 !important;
+    flex-shrink: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    overflow: visible;
+    pointer-events: none;
+    z-index: 4;
+}
+
+.markdown-source-view.mod-cm6 .cm-editor.dnd-root-editor .cm-gutter.cm-dnd-handle-gutter .cm-gutterElement {
+    position: relative;
+    width: 0 !important;
+    min-width: 0 !important;
+    max-width: 0 !important;
+    margin: 0;
+    padding: 0;
+    overflow: visible;
+    pointer-events: none;
+}
+
+.markdown-source-view.mod-cm6 .cm-editor.dnd-root-editor .cm-gutter.cm-dnd-handle-gutter .cm-gutterElement.dnd-handle-gutter-marker {
+    line-height: inherit;
+    white-space: nowrap;
+}
+
+.markdown-source-view.mod-cm6 .cm-editor.dnd-root-editor .cm-gutter.cm-dnd-handle-gutter .dnd-handle-gutter-probe {
+    display: none;
+}
+
+.markdown-source-view.mod-cm6 .cm-editor.dnd-root-editor .cm-gutter.cm-dnd-handle-gutter .cm-gutterElement.dnd-handle-gutter-marker > .dnd-drag-handle.dnd-handle-gutter-bound {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    transform: none;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    box-sizing: border-box;
+    padding-top: var(--dnd-handle-core-top-padding, calc((var(--dnd-handle-size, 16px) - var(--dnd-handle-core-size, 8px)) / 2));
+    pointer-events: auto;
+}
+
+.dnd-drag-handle:hover {
+    opacity: 1 !important;
+    color: var(--dnd-handle-color-hover, var(--dnd-handle-color, var(--text-accent)));
+    filter: brightness(1.08);
+}
+
+.dnd-drag-handle:active {
+    cursor: grabbing;
+}
+
+.dnd-handle-core {
+    width: var(--dnd-handle-core-size, 8px);
+    height: var(--dnd-handle-core-size, 8px);
+    border-radius: 999px;
+    background: currentColor;
+    box-shadow:
+        0 0 0 1px rgba(255, 255, 255, 0.18),
+        0 0 8px var(--dnd-handle-color, var(--interactive-accent));
+}
+
+/* 手柄图标样式：六点抓手 */
+[data-dnd-handle-icon="grip-dots"] .dnd-handle-core {
+    width: auto;
+    height: auto;
+    border-radius: 0;
+    background: none;
+    box-shadow: none;
+    font-size: var(--dnd-handle-core-size, 8px);
+    line-height: 1;
+}
+[data-dnd-handle-icon="grip-dots"] .dnd-handle-core::before {
+    content: '⠿';
+}
+
+/* 手柄图标样式：三横线 */
+[data-dnd-handle-icon="grip-lines"] .dnd-handle-core {
+    width: auto;
+    height: auto;
+    border-radius: 0;
+    background: none;
+    box-shadow: none;
+    font-size: var(--dnd-handle-core-size, 8px);
+    line-height: 1;
+}
+[data-dnd-handle-icon="grip-lines"] .dnd-handle-core::before {
+    content: '☰';
+}
+
+/* 手柄图标样式：方块 */
+[data-dnd-handle-icon="square"] .dnd-handle-core {
+    border-radius: 2px;
+}
+
+/* 所有块共用同一显示态：由统一事件链添加 is-visible */
+.dnd-drag-handle.is-visible {
+    opacity: 0.5;
+}
+
+.markdown-source-view.mod-cm6 .cm-editor.dnd-root-editor {
+    position: relative;
+}
+
+/* 仅主编辑器行参与手柄定位，避免影响嵌套编辑器（如表格单元格） */
+.markdown-source-view.mod-cm6 .cm-editor.dnd-root-editor .cm-content.dnd-main-content > .cm-line {
+    position: relative;
+    overflow: visible;
+}
+
+.dnd-drag-handle.dnd-range-selected-handle {
+    opacity: 1 !important;
+    cursor: grab;
+    color: var(--dnd-handle-color-hover, var(--dnd-handle-color, var(--interactive-accent)));
+    filter: brightness(1.08);
+}
+
+.dnd-drag-handle.dnd-range-selected-handle .dnd-handle-core {
+    box-shadow:
+        0 0 0 1px rgba(255, 255, 255, 0.2),
+        0 0 10px color-mix(in srgb, var(--dnd-handle-color, var(--interactive-accent)) 45%, transparent);
+}
+
+.markdown-source-view.mod-cm6 .cm-editor.dnd-root-editor .cm-content.dnd-main-content > .cm-line.dnd-range-selected-line {
+    background: color-mix(in srgb, var(--interactive-accent) 14%, transparent);
+    border-radius: 4px;
+}
+
+/* 统一拖拽视觉样式变量（源块 + 列表落点） */
+body,
+body[data-dnd-drag-source-style="subtle"],
+.markdown-source-view.mod-cm6 .cm-editor.dnd-root-editor[data-dnd-drag-source-style="subtle"] {
+    --dnd-drag-source-bg: color-mix(in srgb, var(--interactive-accent) 10%, transparent);
+    --dnd-drag-source-border: color-mix(in srgb, var(--interactive-accent) 30%, transparent);
+    --dnd-drag-source-selected-bg: color-mix(in srgb, var(--interactive-accent) 18%, transparent);
+    --dnd-drag-source-selected-border: color-mix(in srgb, var(--interactive-accent) 40%, transparent);
+    --dnd-drop-highlight-bg: color-mix(in srgb, var(--interactive-accent) 10%, transparent);
+    --dnd-drop-highlight-border: color-mix(in srgb, var(--interactive-accent) 30%, transparent);
+}
+
+body[data-dnd-drag-source-style="outline"],
+.markdown-source-view.mod-cm6 .cm-editor.dnd-root-editor[data-dnd-drag-source-style="outline"] {
+    --dnd-drag-source-bg: transparent;
+    --dnd-drag-source-border: color-mix(in srgb, var(--interactive-accent) 42%, transparent);
+    --dnd-drag-source-selected-bg: transparent;
+    --dnd-drag-source-selected-border: color-mix(in srgb, var(--interactive-accent) 52%, transparent);
+    --dnd-drop-highlight-bg: transparent;
+    --dnd-drop-highlight-border: color-mix(in srgb, var(--interactive-accent) 42%, transparent);
+}
+
+body[data-dnd-drag-source-style="filled"],
+.markdown-source-view.mod-cm6 .cm-editor.dnd-root-editor[data-dnd-drag-source-style="filled"] {
+    --dnd-drag-source-bg: color-mix(in srgb, var(--interactive-accent) 18%, transparent);
+    --dnd-drag-source-border: color-mix(in srgb, var(--interactive-accent) 38%, transparent);
+    --dnd-drag-source-selected-bg: color-mix(in srgb, var(--interactive-accent) 28%, transparent);
+    --dnd-drag-source-selected-border: color-mix(in srgb, var(--interactive-accent) 48%, transparent);
+    --dnd-drop-highlight-bg: color-mix(in srgb, var(--interactive-accent) 18%, transparent);
+    --dnd-drop-highlight-border: color-mix(in srgb, var(--interactive-accent) 38%, transparent);
+}
+
+.markdown-source-view.mod-cm6 .cm-editor.dnd-root-editor .cm-content.dnd-main-content > .cm-line.dnd-drag-source-line {
+    background: var(--dnd-drag-source-bg);
+    border-radius: 0;
+    box-shadow:
+        inset 1px 0 0 var(--dnd-drag-source-border),
+        inset -1px 0 0 var(--dnd-drag-source-border);
+}
+
+.markdown-source-view.mod-cm6 .cm-editor.dnd-root-editor .dnd-drag-source-embed {
+    background: var(--dnd-drag-source-bg);
+    border-radius: 6px;
+    box-shadow: inset 0 0 0 1px var(--dnd-drag-source-border);
+}
+
+.markdown-source-view.mod-cm6 .cm-editor.dnd-root-editor .cm-content.dnd-main-content > .cm-line.dnd-drag-source-line-single {
+    border-radius: 6px;
+}
+
+.markdown-source-view.mod-cm6 .cm-editor.dnd-root-editor .cm-content.dnd-main-content > .cm-line.dnd-drag-source-line-first {
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+}
+
+.markdown-source-view.mod-cm6 .cm-editor.dnd-root-editor .cm-content.dnd-main-content > .cm-line.dnd-drag-source-line-middle {
+    border-radius: 0;
+}
+
+.markdown-source-view.mod-cm6 .cm-editor.dnd-root-editor .cm-content.dnd-main-content > .cm-line.dnd-drag-source-line-last {
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+}
+
+.markdown-source-view.mod-cm6 .cm-editor.dnd-root-editor .cm-content.dnd-main-content > .cm-line.dnd-drag-source-line-single,
+.markdown-source-view.mod-cm6 .cm-editor.dnd-root-editor .cm-content.dnd-main-content > .cm-line.dnd-drag-source-line-first {
+    box-shadow:
+        inset 1px 0 0 var(--dnd-drag-source-border),
+        inset -1px 0 0 var(--dnd-drag-source-border),
+        inset 0 1px 0 var(--dnd-drag-source-border);
+}
+
+.markdown-source-view.mod-cm6 .cm-editor.dnd-root-editor .cm-content.dnd-main-content > .cm-line.dnd-drag-source-line-single,
+.markdown-source-view.mod-cm6 .cm-editor.dnd-root-editor .cm-content.dnd-main-content > .cm-line.dnd-drag-source-line-last {
+    box-shadow:
+        inset 1px 0 0 var(--dnd-drag-source-border),
+        inset -1px 0 0 var(--dnd-drag-source-border),
+        inset 0 -1px 0 var(--dnd-drag-source-border);
+}
+
+.markdown-source-view.mod-cm6 .cm-editor.dnd-root-editor .cm-content.dnd-main-content > .cm-line.dnd-drag-source-line-single {
+    box-shadow:
+        inset 1px 0 0 var(--dnd-drag-source-border),
+        inset -1px 0 0 var(--dnd-drag-source-border),
+        inset 0 1px 0 var(--dnd-drag-source-border),
+        inset 0 -1px 0 var(--dnd-drag-source-border);
+}
+
+.markdown-source-view.mod-cm6 .cm-editor.dnd-root-editor .cm-content.dnd-main-content > .cm-line.dnd-range-selected-line.dnd-drag-source-line {
+    background: var(--dnd-drag-source-selected-bg);
+    box-shadow:
+        inset 1px 0 0 var(--dnd-drag-source-selected-border),
+        inset -1px 0 0 var(--dnd-drag-source-selected-border);
+}
+
+.markdown-source-view.mod-cm6 .cm-editor.dnd-root-editor .cm-content.dnd-main-content > .cm-line.dnd-range-selected-line.dnd-drag-source-line-single,
+.markdown-source-view.mod-cm6 .cm-editor.dnd-root-editor .cm-content.dnd-main-content > .cm-line.dnd-range-selected-line.dnd-drag-source-line-first {
+    box-shadow:
+        inset 1px 0 0 var(--dnd-drag-source-selected-border),
+        inset -1px 0 0 var(--dnd-drag-source-selected-border),
+        inset 0 1px 0 var(--dnd-drag-source-selected-border);
+}
+
+.markdown-source-view.mod-cm6 .cm-editor.dnd-root-editor .cm-content.dnd-main-content > .cm-line.dnd-range-selected-line.dnd-drag-source-line-single,
+.markdown-source-view.mod-cm6 .cm-editor.dnd-root-editor .cm-content.dnd-main-content > .cm-line.dnd-range-selected-line.dnd-drag-source-line-last {
+    box-shadow:
+        inset 1px 0 0 var(--dnd-drag-source-selected-border),
+        inset -1px 0 0 var(--dnd-drag-source-selected-border),
+        inset 0 -1px 0 var(--dnd-drag-source-selected-border);
+}
+
+.markdown-source-view.mod-cm6 .cm-editor.dnd-root-editor .cm-content.dnd-main-content > .cm-line.dnd-range-selected-line.dnd-drag-source-line-single {
+    box-shadow:
+        inset 1px 0 0 var(--dnd-drag-source-selected-border),
+        inset -1px 0 0 var(--dnd-drag-source-selected-border),
+        inset 0 1px 0 var(--dnd-drag-source-selected-border),
+        inset 0 -1px 0 var(--dnd-drag-source-selected-border);
+}
+
+body[data-dnd-drag-source-highlight="off"] .markdown-source-view.mod-cm6 .cm-editor.dnd-root-editor .cm-content.dnd-main-content > .cm-line.dnd-drag-source-line,
+.markdown-source-view.mod-cm6 .cm-editor.dnd-root-editor[data-dnd-drag-source-highlight="off"] .cm-content.dnd-main-content > .cm-line.dnd-drag-source-line {
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+body[data-dnd-drag-source-highlight="off"] .markdown-source-view.mod-cm6 .cm-editor.dnd-root-editor .dnd-drag-source-embed,
+.markdown-source-view.mod-cm6 .cm-editor.dnd-root-editor[data-dnd-drag-source-highlight="off"] .dnd-drag-source-embed {
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+.dnd-range-selection-link {
+    position: absolute;
+    width: 4px;
+    transform: translateX(-50%);
+    border-radius: 999px;
+    background-color: var(--dnd-handle-color, var(--interactive-accent));
+    box-shadow: 0 0 6px color-mix(in srgb, var(--dnd-handle-color, var(--interactive-accent)) 36%, transparent);
+    will-change: left, top, height, opacity;
+    opacity: 0;
+    pointer-events: none;
+    cursor: grab;
+    /* Keep selection connector below drag handles to avoid blocking handle interactions. */
+    z-index: 2;
+}
+
+.dnd-range-selection-link.is-active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.dnd-range-selection-link::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: -10px;
+    right: -10px;
+    background: transparent;
+}
+
+.dnd-range-selection-delete-btn {
+    position: absolute;
+    transform: translate(-50%, -100%);
+    min-height: 20px;
+    padding: 2px 8px;
+    border: 1px solid color-mix(in srgb, var(--dnd-handle-color, var(--interactive-accent)) 38%, transparent);
+    border-radius: 999px;
+    background: var(--background-primary);
+    color: var(--dnd-handle-color, var(--interactive-accent));
+    font-size: 11px;
+    line-height: 1.1;
+    box-shadow: 0 2px 8px color-mix(in srgb, var(--dnd-handle-color, var(--interactive-accent)) 22%, transparent);
+    opacity: 0;
+    pointer-events: none;
+    cursor: pointer;
+    z-index: 10003;
+}
+
+.dnd-range-selection-delete-btn.is-active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.dnd-range-selection-delete-btn:hover {
+    filter: brightness(1.08);
+}
+
+/* 常态显示拖拽手柄 */
+body.dnd-handles-always .dnd-drag-handle {
+    opacity: 0.6;
+}
+
+body.dnd-handles-always .dnd-drag-handle.is-visible {
+    opacity: 1;
+}
+
+/* 隐藏模式：完全不显示手柄 */
+body.dnd-handles-hidden .dnd-drag-handle {
+    display: none !important;
+}
+
+/* 拖拽中的状态 */
+body.dnd-dragging {
+    cursor: grabbing !important;
+}
+
+body.dnd-dragging * {
+    cursor: grabbing !important;
+}
+
+body.dnd-dragging .cm-line:hover {
+    background-color: transparent;
+}
+
+/* 移动端手势锁：拖拽期间禁用页面滚动与触摸平移 */
+body.dnd-mobile-gesture-lock {
+    overflow: hidden;
+    overscroll-behavior: none;
+    touch-action: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+.markdown-source-view.mod-cm6 .cm-editor.dnd-mobile-gesture-lock,
+.markdown-source-view.mod-cm6 .cm-editor.dnd-mobile-gesture-lock .cm-scroller,
+.markdown-source-view.mod-cm6 .cm-editor.dnd-mobile-gesture-lock .cm-content {
+    touch-action: none !important;
+    overscroll-behavior: none;
+}
+
+/* 拖拽时的ghost预览 */
+.dnd-drag-ghost {
+    position: absolute;
+    left: -9999px;
+    padding: 4px 8px;
+    background-color: var(--background-primary);
+    border: 1px solid var(--background-modifier-border);
+    border-radius: 4px;
+    font-size: 12px;
+    color: var(--text-normal);
+    max-width: 300px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+}
+
+/* 放置位置指示器 */
+.dnd-drop-indicator {
+    position: fixed;
+    height: 3px;
+    background: var(--dnd-drop-indicator-color, var(--interactive-accent));
+    pointer-events: none;
+    z-index: 10000;
+    border-radius: 2px;
+    box-shadow: 0 0 6px var(--dnd-drop-indicator-color, var(--interactive-accent));
+}
+
+/* 列表块内落点高亮 */
+.dnd-drop-highlight {
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    border-radius: 6px;
+    background: var(--dnd-drop-highlight-bg, color-mix(in srgb, var(--interactive-accent) 10%, transparent));
+    box-shadow: inset 0 0 0 1px var(--dnd-drop-highlight-border, color-mix(in srgb, var(--interactive-accent) 30%, transparent));
+}
+
+body[data-dnd-list-drop-highlight="off"] .dnd-drop-highlight {
+    display: none !important;
+}
+
