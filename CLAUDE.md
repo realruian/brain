@@ -36,3 +36,4 @@
 - macOS 用户
 - 使用中英文
 - 开发者，熟悉 TypeScript / Electron
+- 偶尔做技术分享 / 讲座，笔记放在 `02-Areas/分享/`
