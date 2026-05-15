@@ -1,11 +1,11 @@
 [
   "claudian",
-  "editing-toolbar",
   "obsidian-git",
   "templater-obsidian",
   "table-editor-obsidian",
   "sheets",
   "dragger",
   "cmdr",
-  "obsidian-outliner"
+  "obsidian-outliner",
+  "note-toolbar"
 ]
