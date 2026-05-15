@@ -1,11 +1,12 @@
 {
   "accentColor": "",
-  "cssTheme": "",
+  "cssTheme": "Baseline",
   "showViewHeader": true,
   "nativeMenus": true,
-  "translucency": true,
+  "translucency": false,
   "enabledCssSnippets": [
     "table-widths"
   ],
-  "baseFontSize": 16
+  "baseFontSize": 16,
+  "interfaceFontFamily": ""
 }

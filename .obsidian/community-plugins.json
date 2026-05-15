@@ -5,5 +5,7 @@
   "templater-obsidian",
   "table-editor-obsidian",
   "sheets",
-  "dragger"
+  "dragger",
+  "cmdr",
+  "notebook-navigator"
 ]

@@ -7,8 +7,12 @@
     ".vercel"
   ],
   "showLineNumber": false,
-  "newFileLocation": "current",
+  "newFileLocation": "root",
   "trashOption": "local",
   "alwaysUpdateLinks": true,
-  "attachmentFolderPath": "_attachments"
+  "attachmentFolderPath": "_attachments",
+  "openBehavior": "new",
+  "newLinkFormat": "relative",
+  "showUnsupportedFiles": true,
+  "spellcheck": false
 }
