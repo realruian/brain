@@ -1,11 +1,11 @@
 {
-  "handleColorMode": "theme",
-  "handleColor": "#8a8a8a",
+  "handleColorMode": "custom",
+  "handleColor": "#d4d4d4",
   "handleVisibility": "hover",
-  "handleIcon": "dot",
-  "handleSize": 16,
-  "indicatorColorMode": "theme",
-  "indicatorColor": "#7a7a7a",
+  "handleIcon": "grip-lines",
+  "handleSize": 28,
+  "indicatorColorMode": "custom",
+  "indicatorColor": "#d4d4d4",
   "enableCrossFileDrag": false,
   "enableMultiLineSelection": true,
   "enableMultiSelectionDeleteButton": false,
@@ -13,7 +13,7 @@
   "enableMobileTextLongPressDrag": true,
   "enableDragSourceHighlight": true,
   "enableListDropHighlight": true,
-  "dragSourceVisualStyle": "subtle",
+  "dragSourceVisualStyle": "outline",
   "handleHorizontalOffsetPx": -8,
   "handleGutterPosition": "left"
 }
