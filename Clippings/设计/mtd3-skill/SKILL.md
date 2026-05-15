@@ -505,6 +505,7 @@ metadata:
 - 查看代码中的导入语句
 
 **判断标准**：
+
 | 包名 | 框架标识 | 命令参数 |
 |------|----------|----------|
 | `@ss/mtd-react3` | mtd-react | 可省略 `--target` 或使用 `--target mtd-react` |
@@ -558,6 +559,7 @@ node scripts/mtd-rag.js query_components_direct --components=<组件名> --targe
 ```
 
 **参数说明**：
+
 | 参数 | 说明 | 必填 | 示例 |
 |------|------|------|------|
 | `--components` | 单个或多个组件（逗号分隔，无空格） | 是 | `--components=Button` 或 `--components=Button,Form,Input` |
