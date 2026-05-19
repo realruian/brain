@@ -11,7 +11,7 @@
   "trashOption": "local",
   "alwaysUpdateLinks": true,
   "attachmentFolderPath": "_attachments",
-  "openBehavior": "new",
+  "openBehavior": "",
   "newLinkFormat": "relative",
   "showUnsupportedFiles": true,
   "spellcheck": false
