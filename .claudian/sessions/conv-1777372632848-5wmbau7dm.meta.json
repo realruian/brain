@@ -4,8 +4,8 @@
   "title": "Rephrase text in formal tone",
   "titleGenerationStatus": "success",
   "createdAt": 1777372632848,
-  "updatedAt": 1779436332765,
-  "lastResponseAt": 1779436332765,
+  "updatedAt": 1779436614720,
+  "lastResponseAt": 1779436614720,
   "sessionId": "75d44dd7-7dc8-40ca-92a1-6ea7180b824e",
   "providerState": {
     "providerSessionId": "75d44dd7-7dc8-40ca-92a1-6ea7180b824e"
@@ -13,11 +13,11 @@
   "usage": {
     "model": "opus",
     "inputTokens": 1,
-    "cacheCreationInputTokens": 179,
-    "cacheReadInputTokens": 367142,
+    "cacheCreationInputTokens": 2416,
+    "cacheReadInputTokens": 373441,
     "contextWindow": 1000000,
-    "contextTokens": 367322,
-    "percentage": 37,
+    "contextTokens": 375858,
+    "percentage": 38,
     "contextWindowIsAuthoritative": true
   }
 }
