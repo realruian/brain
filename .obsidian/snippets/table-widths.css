@@ -36,3 +36,55 @@
 .markdown-rendered table td {
   padding: 6px 10px;
 }
+
+/* =========================================================
+   compare-table —— 对比表专用
+   用法：笔记 frontmatter 加 `cssclasses: [compare-table]`
+   效果：第 1 列窄（行标签），其余列等宽（避免 N 选 1 被挤压）
+   ========================================================= */
+.compare-table .markdown-rendered table,
+.compare-table .markdown-source-view table,
+.markdown-rendered.compare-table table,
+.markdown-source-view.compare-table table {
+  table-layout: fixed;
+  width: 100%;
+}
+
+/* 第 1 列：行标签，固定 120px */
+.compare-table .markdown-rendered table th:first-child,
+.compare-table .markdown-rendered table td:first-child,
+.compare-table .markdown-source-view table th:first-child,
+.compare-table .markdown-source-view table td:first-child,
+.markdown-rendered.compare-table table th:first-child,
+.markdown-rendered.compare-table table td:first-child {
+  width: 120px;
+}
+
+/* 表头/单元格强制顶部对齐，长内容看着更整齐 */
+.compare-table .markdown-rendered table th,
+.compare-table .markdown-rendered table td,
+.markdown-rendered.compare-table table th,
+.markdown-rendered.compare-table table td {
+  vertical-align: top;
+}
+
+/* 关键修复：固定布局下必须允许换行，否则长中文会溢出到下一列 */
+.compare-table .markdown-rendered table td,
+.compare-table .markdown-rendered table th,
+.compare-table .markdown-source-view table td,
+.compare-table .markdown-source-view table th,
+.markdown-rendered.compare-table table td,
+.markdown-rendered.compare-table table th,
+.markdown-source-view.compare-table table td,
+.markdown-source-view.compare-table table th {
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+
+/* 单元格内的图片自适应列宽（防止图片撑破表格） */
+.compare-table .markdown-rendered table img,
+.markdown-rendered.compare-table table img {
+  max-width: 100%;
+  height: auto;
+}

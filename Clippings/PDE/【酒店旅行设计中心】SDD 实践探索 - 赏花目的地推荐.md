@@ -5,7 +5,7 @@ saved: 2026-05-15
 tags: [Clippings]
 date: 2026-05-15
 ---
-
+![[../../../_attachments/Pasted image 20260520142949.png]]
 # 【酒店旅行设计中心】SDD 实践探索 - 赏花目的地推荐
 
 目录
@@ -36,31 +36,46 @@ date: 2026-05-15
 
 # 二、Hotel-SDD 的优势
 
-**Hotel-SDD Skill 是酒旅设计和研发团队共建的需求交付全流程工具，**串联从前置准备-编码-部署-测试-上线的自动化全流程，帮助设计师专注于产品体验和视觉表现。
+Hotel-SDD Skill 是酒旅设计和研发团队共建的需求交付全流程工具，串联从前置准备-编码-部署-测试-上线的自动化全流程，帮助设计师专注于产品体验和视觉表现。
 
-**优势一：将繁琐的「本地环境配置 - 需求上下文理解 - 技术方案拆分 - 自动化测试 - 上线」等开发流程自动化**
+优势一：将繁琐的「本地环境配置 - 需求上下文理解 - 技术方案拆分 - 自动化测试 - 上线」等开发流程自动化**
+![[../../../_attachments/Pasted image 20260520142959.png]]
 
-| **优势二：代码采纳率高、设计稿还原更快、项目落地更可靠** |
-| --- |
-| **自动化流程录屏演示**<br>本浏览器不支持 HTML5 video 标签<br>00:00 / 00:00 |
+优势二：代码采纳率高、设计稿还原更快、项目落地更可靠
+![[../../../_attachments/Pasted image 20260520143101.png]]
 
+自动化流程录屏演示
+缺
 # 三、实践方案展示
-
+![[../../../_attachments/Pasted image 20260520143138.png]]
+![[../../../_attachments/Pasted image 20260520143146.png]]
+![[../../../_attachments/Pasted image 20260520143151.png]]
 # 四、Hotel SDD Skill 流程拆解
 
+阶段一：计划 - 对话完成前期部署和编码准备 ​自动化流程
+![[../../../_attachments/Pasted image 20260520143209.png]]
+![[../../../_attachments/Pasted image 20260520143217.png]]
+![[../../../_attachments/Pasted image 20260520143223.png]]
+![[../../../_attachments/Pasted image 20260520143230.png]]
+![[../../../_attachments/Pasted image 20260520143238.png]]
+
 阶段二：执行 -设计师独立完成编码并自查
+![[../../../_attachments/Pasted image 20260520143245.png]]
 
 阶段三：**验证「部署-自动化测试」**自动化流程
+![[../../../_attachments/Pasted image 20260520143252.png]]
+![[../../../_attachments/Pasted image 20260520143259.png]]
 
 阶段四：**上线「CR-业务验收-上线」**自动化流程
-
+![[../../../_attachments/Pasted image 20260520143308.png]]
+![[../../../_attachments/Pasted image 20260520143313.png]]
 # 五、实践结果和经验沉淀
 
 **实践结果**
-
+![[../../../_attachments/Pasted image 20260520143319.png]]
 ##### **①****AI Coding 实战经验分享- 5 步帮助设计师将创意变成代码**
 
-##### **步骤1:创意发散**
+**步骤1:创意发散**
 
 **步骤2:静态设计稿还原**
 
@@ -68,13 +83,37 @@ date: 2026-05-15
 
 **步骤4:联调**
 
-**步骤5:bug 修复**
+**步骤5:bug修复**
+![[../../../_attachments/Pasted image 20260520143325.png]]
+![[../../../_attachments/Pasted image 20260520143403.png]]
+![[../../../_attachments/Pasted image 20260520143413.png]]
+![[../../../_attachments/Pasted image 20260520143417.png]]![[../../../_attachments/Pasted image 20260520143422.png]]
 
-| **② 实战 Skill 沉淀** |
-| --- |
-| **Skill 功能** **链接**<br>开发全流程工具 Skill: hotel-sdd（hotel-sdd）<br>设计师常用设计规范 Skill: hotel-spec-design（hotel-design-spec）<br>辅助设计师与AI 对话 Skill: hotel-design-restore（hotel-design-restore）<br>图转码 Skill: explore-design-tree（explore-design-tree） |
+实战 Skill 沉淀
+**Skill 功能** **链接**
+- 开发全流程工具 Skill: hotel-sdd（hotel-sdd）
+- 设计师常用设计规范 Skill: hotel-spec-design（hotel-design-spec）
+- 辅助设计师与AI 对话 Skill: hotel-design-restore（hotel-design-restore）
+- 图转码 Skill: explore-design-tree（explore-design-tree）
 
-##### **1、为独立自闭环型需求提供可复用的协作范式：** / **a、复杂依赖型**（设计师无法独立交付） /       涉及多个业务链路或跨系统交互，依赖后端接口、业务逻辑联动或权限校验，需研发深度介入。常见如免单玩法、大额券、主客态裂变等。 / **b、独立自闭环型**（设计师可借助 AI coding 独立交付） /      页面功能可内部闭环，涉及简单的后端逻辑和少量接口，以展示、交互、静态数据为主。此类需求具备由设计师借助 AI coding 独立完成开发交付的可行性。 / **2、为后续 Maker 组件产研新范式探索做前置实践** /      计划复用 hotel-sdd 中部分原子节点，如需求上下文理解-技术方案拆分-测试等步骤
+③ 产研协作模式沉淀
+
+**1、为独立自闭环型需求提供可复用的协作范式：**<br><br>**a、复杂依赖型**（设计师无法独立交付）  <br>涉及多个业务链路或跨系统交互，依赖后端接口、业务逻辑联动或权限校验，需研发深度介入。常见如免单玩法、大额券、主客态裂变等。<br><br>**b、独立自闭环型**（设计师可借助 AI coding 独立交付）  <br>页面功能可内部闭环，涉及简单的后端逻辑和少量接口，以展示、交互、静态数据为主。此类需求具备由设计师借助 AI coding 独立完成开发交付的可行性。
+![[../../../_attachments/Pasted image 20260520143548.png]]
+
+③ 产研协作模式沉淀
+
+1、为独立自闭环型需求提供可复用的协作范式：
+
+      a、复杂依赖型（设计师无法独立交付）      涉及多个业务链路或跨系统交互，依赖后端接口、业务逻辑联动或权限校验，需研发深度介入。常见如免单玩法、大额券、主客态裂变等。
+
+      b、独立自闭环型（设计师可借助 AI coding 独立交付）     页面功能可内部闭环，涉及简单的后端逻辑和少量接口，以展示、交互、静态数据为主。此类需求具备由设计师借助 AI coding 独立完成开发交付的可行性。
+
+
+
+2、为后续 Maker 组件产研新范式探索做前置实践
+
+     计划复用 hotel-sdd 中部分原子节点，如需求上下文理解-技术方案拆分-测试等步骤
 
 SDD：SDD（Spec-Driven Development，规范驱动开发），SDD 是一种以结构化、可执行的规范（Spec）作为唯一事实来源，通过人机可共同理解的契约（Spec）来约束和引导 AI 的行为，从而提升代码质量、可维护性与开发流程的可控性。简单来说，它的工作流不再是“需求 → 写代码 → 写文档”，而是“需求 → 详细规范 → AI生成代码 → 验证”。
 
