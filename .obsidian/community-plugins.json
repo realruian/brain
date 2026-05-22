@@ -1,6 +1,5 @@
 [
   "claudian",
-  "obsidian-git",
   "templater-obsidian",
   "table-editor-obsidian",
   "sheets",
@@ -8,5 +7,6 @@
   "cmdr",
   "obsidian-outliner",
   "note-toolbar",
-  "editing-toolbar"
+  "editing-toolbar",
+  "obsidian-git"
 ]
