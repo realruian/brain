@@ -1,0 +1,24 @@
+{
+  "id": "conv-1779782653719-sd2ha60wg",
+  "providerId": "claude",
+  "title": "我注意到你的请求提到\"这篇文档\"，但没有明确指定具体是哪个文档。\n\n请问你想让我阅读的是：\n1...",
+  "titleGenerationStatus": "success",
+  "createdAt": 1779782653722,
+  "updatedAt": 1779783570855,
+  "lastResponseAt": 1779783570855,
+  "sessionId": "463aee65-7b78-4386-9106-a7c202c80df4",
+  "providerState": {
+    "providerSessionId": "463aee65-7b78-4386-9106-a7c202c80df4"
+  },
+  "currentNote": "02-Areas/Harness/Harness 构建指南.md",
+  "usage": {
+    "model": "opus",
+    "inputTokens": 2,
+    "cacheCreationInputTokens": 1764,
+    "cacheReadInputTokens": 76874,
+    "contextWindow": 1000000,
+    "contextTokens": 78640,
+    "percentage": 8,
+    "contextWindowIsAuthoritative": true
+  }
+}
